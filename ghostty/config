@@ -50,3 +50,4 @@ background-blur = 10
 cursor-style = block
 shell-integration-features = no-cursor, sudo, no-title
 mouse-hide-while-typing = true
+command = "/usr/bin/zsh"
