@@ -1,53 +1,57 @@
-# This is the configuration file for Ghostty.
-#
-# This template file has been automatically created at the following
-# path since Ghostty couldn't find any existing config files on your system:
-#
-#   /home/notsogreatdavi/.config/ghostty/config
-#
-# The template does not set any default options, since Ghostty ships
-# with sensible defaults for all options. Users should only need to set
-# options that they want to change from the default.
-#
-# Run `ghostty +show-config --default --docs` to view a list of
-# all available config options and their default values.
-#
-# Additionally, each config option is also explained in detail
-# on Ghostty's website, at https://ghostty.org/docs/config.
+# ===================================================================
+# Arquivo de Configuração do Ghostty para notsogreatdavi
+# Organizado em seções lógicas para fácil manutenção.
+# ===================================================================
 
-# Config syntax crash course
-# ==========================
-# # The config file consists of simple key-value pairs,
-# # separated by equals signs.
-# font-family = Iosevka
-# window-padding-x = 2
-#
-# # Spacing around the equals sign does not matter.
-# # All of these are identical:
-# key=value
-# key= value
-# key =value
-# key = value
-#
-# # Any line beginning with a # is a comment. It's not possible to put
-# # a comment after a config option, since it would be interpreted as a
-# # part of the value. For example, this will have a value of "#123abc":
-# background = #123abc
-#
-# # Empty values are used to reset config keys to default.
-# key =
-#
-# # Some config options have unique syntaxes for their value,
-# # which is explained in the docs for that config option.
-# # Just for example:
-resize-overlay-duration = 3s
-theme = "nord"
-font-family = JetBrainsMono Nerd Font
-font-size = 13
-font-feature = liga
+
+# -------------------------------------------------------------------
+# Aparência e Estilo Visual (Appearance & Theming)
+# -------------------------------------------------------------------
+
+# Remove a barra de título e botões da janela para um look minimalista.
+window-decoration = none
+
+# Define a opacidade do fundo (0.0 = transparente, 1.0 = opaco).
 background-opacity = 0.9
+
+# Força do efeito de "blur" (desfoque) no fundo.
 background-blur = 10
+
+# Zera o espaçamento interno entre a borda da janela e o texto.
+window-padding-x = 0
+window-padding-y = 0
+
+# Estilo do cursor (block, beam, underline).
 cursor-style = block
-shell-integration-features = no-cursor, sudo, no-title
+
+
+# -------------------------------------------------------------------
+# Fontes (Fonts)
+# -------------------------------------------------------------------
+# Define a família da fonte principal.
+font-family = "JetBrainsMono Nerd Font"
+
+# Define o tamanho da fonte.
+font-size = 13
+
+# Ativa ligaturas da fonte (ex: '!=' vira '≠').
+font-feature = liga
+
+
+# -------------------------------------------------------------------
+# Comportamento (Behavior)
+# -------------------------------------------------------------------
+# Define o shell a ser executado como um login shell.
+command = "zsh -l"
+
+# Desativa a confirmação ao fechar uma janela (útil com i3).
+confirm-close-surface = false
+
+# Esconde o cursor do mouse ao digitar.
 mouse-hide-while-typing = true
-command = "/usr/bin/zsh"
+
+# Duração do overlay de redimensionamento (ex: 80x24) ao mudar o tamanho.
+resize-overlay-duration = 3s
+
+# Desativa funcionalidades específicas da integração com o shell.
+shell-integration-features = no-cursor, sudo, no-title

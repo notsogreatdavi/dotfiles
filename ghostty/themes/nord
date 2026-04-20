@@ -1,0 +1,30 @@
+# Paleta de Cores Nord para Ghostty (com a sintaxe correta)
+
+# Cores principais
+colors-background = "#2E3440"
+colors-foreground = "#D8DEE9"
+
+# Cores do Cursor
+colors-cursor-background = "#D8DEE9"
+colors-cursor-foreground = "#2E3440"
+
+# Paleta de 16 cores ANSI
+# Cores Normais
+palette-black   = "#3B4252"
+palette-red     = "#BF616A"
+palette-green   = "#A3BE8C"
+palette-yellow  = "#EBCB8B"
+palette-blue    = "#81A1C1"
+palette-magenta = "#B48EAD"
+palette-cyan    = "#88C0D0"
+palette-white   = "#E5E9F0"
+
+# Cores Brilhantes
+palette-bright-black   = "#4C566A"
+palette-bright-red     = "#BF616A"
+palette-bright-green   = "#A3BE8C"
+palette-bright-yellow  = "#EBCB8B"
+palette-bright-blue    = "#81A1C1"
+palette-bright-magenta = "#B48EAD"
+palette-bright-cyan    = "#8FBCBB"
+palette-bright-white   = "#ECEFF4"
