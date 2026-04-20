@@ -1,0 +1,6 @@
+# Credenciais do Spotify API
+# Crie sua aplicação em: https://developer.spotify.com/dashboard
+# Redirect URI a configurar no dashboard: http://localhost:8888/callback
+client_id: SEU_CLIENT_ID
+client_secret: SEU_CLIENT_SECRET
+port: 8888
