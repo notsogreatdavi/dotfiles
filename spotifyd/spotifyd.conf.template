@@ -1,0 +1,20 @@
+[global]
+# Seu username do Spotify (não o email — veja em: spotify.com/account/overview)
+username = "SEU_USERNAME_SPOTIFY"
+
+# Sua senha do Spotify
+# Alternativa mais segura: use o secret-service (libsecret) e remova esta linha
+password = "SUA_SENHA_SPOTIFY"
+
+# Backend de áudio: "pulseaudio" ou "pipewire"
+backend = "pulseaudio"
+
+# Nome que este dispositivo terá na sua rede Spotify Connect
+device_name = "ArchLinux"
+device_type = "speaker"
+
+# Cache de músicas
+cache_path = "/home/SEU_USUARIO/.cache/spotifyd"
+
+volume_normalisation = true
+use_mpris = false
