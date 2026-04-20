@@ -34,6 +34,7 @@ link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
 # Diretórios em ~/.config
 link "$DOTFILES_DIR/nvim"     "$CONFIG_DIR/nvim"
 link "$DOTFILES_DIR/ghostty"  "$CONFIG_DIR/ghostty"
+link "$DOTFILES_DIR/rofi"     "$CONFIG_DIR/rofi"
 
 echo ""
 echo "==> Symlinks criados com sucesso."
