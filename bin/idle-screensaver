@@ -1,0 +1,13 @@
+#!/bin/bash
+outputs=$(xrandr | grep " connected" | awk '{print $1}')
+pids=()
+
+for output in $outputs; do
+    i3-msg "focus output $output" >/dev/null 2>&1
+    sleep 0.2
+    ghostty --fullscreen=true -e drift --scene life --theme nord &
+    pids+=($!)
+    sleep 0.3
+done
+
+wait "${pids[@]}"

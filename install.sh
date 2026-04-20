@@ -57,6 +57,12 @@ link "$DOTFILES_DIR/zathura"     "$CONFIG_DIR/zathura"
 link "$DOTFILES_DIR/spotifyd"    "$CONFIG_DIR/spotifyd"
 link "$DOTFILES_DIR/spotify-tui" "$CONFIG_DIR/spotify-tui"
 
+# Scripts em ~/.local/bin
+mkdir -p "$HOME/.local/bin"
+for script in "$DOTFILES_DIR/bin/"*; do
+    link "$script" "$HOME/.local/bin/$(basename "$script")"
+done
+
 # Arquivo isolado (não o diretório inteiro)
 mkdir -p "$CONFIG_DIR/git"
 link "$DOTFILES_DIR/git/ignore"  "$CONFIG_DIR/git/ignore"

@@ -1,0 +1,4 @@
+#!/bin/bash
+exec xidlehook \
+    --timer 180 'idle-screensaver' 'pkill -x drift' \
+    --timer 120 'pkill -x drift; betterlockscreen -l' ''
