@@ -1,19 +1,17 @@
 [global]
-# Seu username do Spotify (não o email — veja em: spotify.com/account/overview)
 username = "SEU_USERNAME_SPOTIFY"
 
-# Sua senha do Spotify
-# Alternativa mais segura: use o secret-service (libsecret) e remova esta linha
-password = "SUA_SENHA_SPOTIFY"
+# Senha gerenciada pelo gnome-keyring (secret-service) — não fica em texto puro.
+# Após instalar, armazene com:
+#   secret-tool store --label="spotifyd" application spotifyd username "SEU_USERNAME_SPOTIFY"
+use_keyring = true
 
 # Backend de áudio: "pulseaudio" ou "pipewire"
 backend = "pulseaudio"
 
-# Nome que este dispositivo terá na sua rede Spotify Connect
 device_name = "ArchLinux"
 device_type = "speaker"
 
-# Cache de músicas
 cache_path = "/home/SEU_USUARIO/.cache/spotifyd"
 
 volume_normalisation = true
