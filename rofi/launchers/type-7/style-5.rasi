@@ -1,0 +1,174 @@
+/**
+ * Rofi Theme - Nord
+ * Adapted for notsogreatdavi by Gemini
+ */
+
+/*****----- Global Properties -----*****/
+* {
+    /* Paleta de Cores Nord */
+    nord0:                       #2E3440; /* Polar Night */
+    nord1:                       #3B4252;
+    nord3:                       #4C566A;
+    nord4:                       #D8DEE9; /* Snow Storm */
+    nord6:                       #ECEFF4;
+    nord8:                       #88C0D0; /* Frost */
+    nord10:                      #5E81AC;
+    nord14:                      #A3BE8C; /* Aurora (Green) */
+    nord15:                      #B48EAD; /* Aurora (Purple) */
+
+    /* Mapeamento de cores para o tema */
+    background:                  @nord0;
+    background-alt:              @nord1;
+    text:                        @nord4;
+    primary:                     @nord8;
+    secondary:                   @nord10;
+    urgent:                      @nord15;
+    
+    font:                        "JetBrains Mono Nerd Font 10";
+}
+
+/*****----- Configuration -----*****/
+configuration {
+    modi:                        "drun,filebrowser,window";
+    show-icons:                  true;
+    display-drun:                " Apps";
+    display-filebrowser:         " Files";
+    display-window:              " Windows";
+    drun-display-format:         "{name}";
+    window-format:               "{w} · {c} · {t}";
+}
+
+/*****----- Main Window -----*****/
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    width:                       600px;
+    border-radius:               15px;
+    background-color:            @background;
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    spacing:                     15px;
+    padding:                     20px;
+    background-color:            transparent;
+    orientation:                 vertical;
+    children:                    [ "mode-switcher", "inputbar", "listbox" ];
+}
+
+listbox {
+    padding:                     10px;
+    background-color:            transparent;
+    orientation:                 vertical;
+    children:                    [ "message", "listview" ];
+}
+
+/*****----- Mode Switcher (Centralizado) -----*****/
+mode-switcher {
+    enabled:                     true;
+    spacing:                     20px;
+    background-color:            transparent;
+    text-color:                  @text;
+    horizontal-align:            0.5; /* Centraliza horizontalmente */
+}
+button {
+    padding:                     10px 15px;
+    border-radius:               10px;
+    background-color:            @background-alt;
+    text-color:                  inherit;
+    cursor:                      pointer;
+}
+button selected {
+    background-color:            @primary;
+    text-color:                  @background;
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:                     true;
+    spacing:                     15px;
+    padding:                     15px;
+    border-radius:               10px;
+    background-color:            @background-alt;
+    text-color:                  @text;
+    orientation:                 horizontal;
+    children:                    [ "textbox-prompt-colon", "entry"];
+}
+textbox-prompt-colon {
+    enabled:                     true;
+    expand:                      false;
+    str:                         "";
+    padding:                     10px 15px;
+    border-radius:               10px;
+    background-color:            @secondary;
+    text-color:                  @nord6;
+}
+entry {
+    padding:                     10px 16px;
+    border-radius:               10px;
+    background-color:            @background-alt;
+    text-color:                  inherit;
+    cursor:                      text;
+    placeholder:                 "Search...";
+    placeholder-color:           inherit;
+}
+
+/*****----- Listview -----*****/
+listview {
+    columns:                     1;
+    lines:                       8;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    spacing:                     10px;
+    background-color:            transparent;
+    text-color:                  @text;
+}
+
+/*****----- Elements -----*****/
+element {
+    padding:                     10px;
+    border-radius:               10px;
+    background-color:            transparent;
+    text-color:                  @text;
+    cursor:                      pointer;
+}
+element normal.normal {
+    background-color:            @background-alt;
+    text-color:                  inherit;
+}
+element selected.normal {
+    background-color:            @primary;
+    text-color:                  @background;
+}
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        24px;
+    cursor:                      inherit;
+}
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+}
+
+/*****----- Message -----*****/
+message {
+    background-color:            transparent;
+}
+textbox {
+    padding:                     12px;
+    border-radius:               10px;
+    background-color:            @background-alt;
+    text-color:                  @text;
+}
+error-message {
+    padding:                     12px;
+    border-radius:               10px;
+    background-color:            @background;
+    text-color:                  @urgent;
+}

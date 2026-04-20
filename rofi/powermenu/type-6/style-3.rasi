@@ -1,0 +1,99 @@
+/**
+ * Rofi Powermenu - Nord Theme (Simple & Centered)
+ * Adaptado para notsogreatdavi by Gemini
+ */
+
+/*****----- Global Properties -----*****/
+
+configuration {
+    show-icons: false;
+
+  }
+* {
+    /* Paleta de Cores Nord */
+    nord0:                       #2E3440; /* Polar Night */
+    nord1:                       #3B4252;
+    nord3:                       #4C566A;
+    nord4:                       #D8DEE9; /* Snow Storm */
+    nord6:                       #ECEFF4;
+    nord8:                       #88C0D0; /* Frost */
+    nord11:                      #BF616A; /* Aurora (Red) */
+
+    /* Mapeamento de cores para o tema */
+    background:                  @nord0;
+    background-alt:              @nord1;
+    foreground:                  @nord6;
+    selected:                    @nord8;
+    urgent:                      @nord11;
+
+    font:                        "JetBrainsMono Nerd Font 12";
+}
+
+/*****----- Main Window -----*****/
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    width:                       250px; /* Largura menor para um menu vertical */
+    border-radius:               15px;
+    background-color:            @background;
+    children:                    [ "mainbox" ];
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    padding:                     15px;
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview" ];
+}
+
+/*****----- Inputbar (Título) -----*****/
+inputbar {
+    padding:                     10px;
+    border-radius:               10px;
+    background-color:            @background-alt;
+    text-color:                  @selected;
+    children:                    [ "prompt" ];
+}
+
+prompt {
+    enabled:                     true;
+    background-color:            inherit;
+    text-color:                  inherit;
+    horizontal-align:            0.5;
+}
+
+/*****----- Listview (Opções) -----*****/
+listview {
+    lines:                       4; /* 4 opções: Lock, Logout, Reboot, Shutdown */
+    cycle:                       false;
+    scrollbar:                   false;
+    layout:                      vertical;
+    spacing:                     10px;
+    padding:                     10px 0px 0px;
+    background-color:            transparent;
+}
+
+/*****----- Elements -----*****/
+element {
+    padding:                     10px 15px;
+    border-radius:               10px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    horizontal-align:            -1; /* Centraliza o texto/ícone */
+}
+
+element selected {
+    background-color:            @selected;
+    text-color:                  @background;
+}
+element selected.urgent {
+    background-color:            @urgent;
+    text-color:                  @background;
+}
