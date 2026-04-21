@@ -80,7 +80,8 @@ setup_sddm() {
     sudo mkdir -p /etc/sddm.conf.d
     sudo cp "$DOTFILES_DIR/sddm/sddm.conf.d/10-theme.conf" /etc/sddm.conf.d/10-theme.conf
     sudo cp "$DOTFILES_DIR/sddm/themes/eucalyptus-drop/theme.conf" /usr/share/sddm/themes/eucalyptus-drop/theme.conf
-    # Background: sudo cp ~/Pictures/wallpaper/theme.png /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png
+    sudo cp "$DOTFILES_DIR/sddm/scripts/Xsetup" /usr/share/sddm/scripts/Xsetup
+    # Background: sudo cp ~/Pictures/spiral-wolfram-nord.png /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png
     echo -e "${GREEN}  sddm: configs aplicadas${NC}"
 }
 
@@ -101,5 +102,5 @@ echo "  6. Preencher credenciais em:"
 echo "     ~/.config/spotifyd/spotifyd.conf"
 echo "     ~/.config/spotify-tui/client.yml"
 echo "  7. SDDM background (não rastreado no repo):"
-echo "     sudo cp ~/Pictures/wallpaper/theme.png /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png"
+echo "     sudo cp ~/Pictures/spiral-wolfram-nord.png /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png"
 echo "     sudo systemctl enable sddm"
