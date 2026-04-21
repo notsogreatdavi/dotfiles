@@ -81,7 +81,9 @@ setup_sddm() {
     sudo cp "$DOTFILES_DIR/sddm/sddm.conf.d/10-theme.conf" /etc/sddm.conf.d/10-theme.conf
     sudo cp "$DOTFILES_DIR/sddm/themes/eucalyptus-drop/theme.conf" /usr/share/sddm/themes/eucalyptus-drop/theme.conf
     sudo cp "$DOTFILES_DIR/sddm/scripts/Xsetup" /usr/share/sddm/scripts/Xsetup
-    # Background: sudo cp ~/Pictures/wallpaper/theme.png /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png
+    sudo cp "$DOTFILES_DIR/wallpapers/theme.png" /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png
+    mkdir -p "$HOME/Pictures/wallpaper"
+    cp "$DOTFILES_DIR/wallpapers/theme.png" "$HOME/Pictures/wallpaper/theme.png"
     echo -e "${GREEN}  sddm: configs aplicadas${NC}"
 }
 
@@ -101,6 +103,5 @@ echo "  5. Abrir Neovim — LazyVim instala os plugins automaticamente"
 echo "  6. Preencher credenciais em:"
 echo "     ~/.config/spotifyd/spotifyd.conf"
 echo "     ~/.config/spotify-tui/client.yml"
-echo "  7. SDDM background (não rastreado no repo):"
-echo "     sudo cp ~/Pictures/wallpaper/theme.png /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png"
+echo "  7. Wallpaper e SDDM background são aplicados automaticamente pelo install.sh"
 echo "     sudo systemctl enable sddm"
