@@ -1,3 +1,2 @@
 #!/bin/sh
 # Xsetup - run as root before the login dialog appears
-feh --bg-scale /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png
