@@ -28,8 +28,6 @@ BAR="$(volume_bar "$VOL")"
 
 ENTRIES=(
     "$STATUS"
-    "󰝝  Volume +5%"
-    "󰝞  Volume -5%"
     "󰍭  Alternar Mudo"
     "󰀩  Abrir Mixer"
 )
@@ -39,8 +37,6 @@ IDX=$(printf '%s\n' "${ENTRIES[@]}" | rofi -no-config -dmenu -p "Áudio" -format
 
 case "$IDX" in
     0) ;;
-    1) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ ;;
-    2) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- ;;
-    3) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
-    4) pavucontrol & ;;
+    1) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
+    2) pavucontrol & ;;
 esac

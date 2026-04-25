@@ -49,7 +49,7 @@ listview {
     background-color: @al;
     padding:          4px;
     columns:          1;
-    lines:            5;
+    lines:            3;
     spacing:          2px;
     cycle:            false;
     dynamic:          false;
