@@ -1,0 +1,11 @@
+/* Nord palette — ac and se are overwritten dynamically by launcher.sh */
+
+* {
+  al:  #00000000;
+  bg:  #2E3440FF;
+  bga: #3B4252FF;
+  fg:  #ECEFF4FF;
+  fga: #D8DEE9FF;
+  ac:  #88C0D0FF;
+  se:  #88C0D040;
+}

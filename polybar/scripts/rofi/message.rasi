@@ -1,0 +1,17 @@
+configuration {
+    font: "JetBrainsMono Nerd Font 10";
+}
+
+@import "colors.rasi"
+
+window {
+    transparency:     "real";
+    background-color: @bg;
+    text-color:       @fga;
+    border:           1px;
+    border-color:     @ac;
+    border-radius:    6px;
+    padding:          12px 20px;
+    width:            360px;
+    location:         center;
+}

@@ -1,0 +1,46 @@
+configuration {
+    font:           "JetBrainsMono Nerd Font 10";
+    show-icons:     false;
+    hide-scrollbar: true;
+}
+
+@import "colors.rasi"
+
+window {
+    transparency:     "real";
+    background-color: @bg;
+    text-color:       @fg;
+    border:           1px;
+    border-color:     @ac;
+    border-radius:    6px;
+    width:            300px;
+    location:         center;
+}
+
+inputbar {
+    children:         [ prompt, entry ];
+    background-color: @bga;
+    border:           0px;
+    padding:          8px;
+}
+
+prompt {
+    background-color: @al;
+    text-color:       @ac;
+    padding:          0px 4px 0px 0px;
+}
+
+entry {
+    background-color: @al;
+    text-color:       @fga;
+    placeholder:      "yes / no";
+    placeholder-color: @fga;
+    expand:           true;
+    blink:            true;
+}
+
+mainbox {
+    background-color: @al;
+    children:         [ inputbar ];
+    padding:          0px;
+}
