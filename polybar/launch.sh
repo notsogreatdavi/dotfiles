@@ -3,4 +3,5 @@
 killall -q polybar
 while pgrep -u "$UID" -x polybar >/dev/null; do sleep 1; done
 
-MONITOR=eDP-1 polybar bar --reload &
+EXTERNAL=$(xrandr --query | grep -E "^HDMI.* connected" | awk '{print $1}' | head -n1)
+MONITOR="${EXTERNAL:-eDP-1}" polybar bar --reload &
