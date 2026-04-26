@@ -14,9 +14,6 @@ window-decoration = none
 # Define a opacidade do fundo (0.0 = transparente, 1.0 = opaco).
 background-opacity = 0.75
 
-# Força do efeito de "blur" (desfoque) no fundo.
-background-blur = 5
-
 # Zera o espaçamento interno entre a borda da janela e o texto.
 window-padding-x = 0
 window-padding-y = 0
