@@ -138,7 +138,7 @@ bindsym Shift+Print exec "maim -d 5 | xclip -selection clipboard -t image/png"
 bindsym $mod+Shift+c exec i3-msg reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Sair do i3? Isso encerrará a sessão X.' -B 'Sim, sair' 'i3-msg exit'"
-bindsym $mod+Ctrl+l  exec betterlockscreen -l
+bindsym $mod+Ctrl+l  exec lock
 
 # ─── Modo: Resize ─────────────────────────────────────────────────────────────
 
@@ -164,7 +164,7 @@ bindsym $mod+r mode "resize"
 
 exec          --no-startup-id dunst
 exec          --no-startup-id dex --autostart --environment i3
-exec          --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l
+exec          --no-startup-id xss-lock --transfer-sleep-lock -- lock
 exec          --no-startup-id start-xidlehook
 exec          --no-startup-id dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP=i3
 exec          --no-startup-id i3-msg "workspace 4; workspace 3; workspace 2; workspace 1"

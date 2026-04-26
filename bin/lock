@@ -1,0 +1,17 @@
+#!/bin/bash
+# Lock screen with parallel fingerprint + password support.
+# betterlockscreen handles password via PAM; fprintd-verify
+# runs in a separate loop and kills i3lock on finger match.
+
+betterlockscreen -l "$@" &
+sleep 0.5
+
+(while pidof i3lock > /dev/null 2>&1; do
+    if fprintd-verify 2>/dev/null | grep -q "verify-match"; then
+        pkill -x i3lock
+        break
+    fi
+done) &
+
+wait %1
+pkill -f "fprintd-verify" 2>/dev/null
