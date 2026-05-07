@@ -117,5 +117,16 @@ source $ZSH/oh-my-zsh.sh
 # TERM=xterm-kitty apenas para ranger — habilita Kitty Graphics Protocol sem afetar o TERM global.
 alias ranger='TERM=xterm-kitty ranger'
 
+# Zed: inicia o servidor em modo normal antes de chamar o CLI para evitar hang no X11
+zed() {
+    local socket="$HOME/.local/share/zed/zed-stable.sock"
+    if [[ ! -S "$socket" ]]; then
+        "$HOME/.local/zed.app/libexec/zed-editor" > /dev/null 2>&1 &
+        local i=0
+        until [[ -S "$socket" ]] || (( i++ >= 30 )); do sleep 0.5; done
+    fi
+    "$HOME/.local/bin/zed" "$@"
+}
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
