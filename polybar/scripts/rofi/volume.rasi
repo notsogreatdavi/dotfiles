@@ -14,7 +14,7 @@ window {
     border:           1px;
     border-color:     @ac;
     border-radius:    6px;
-    width:            260px;
+    width:            320px;
     location:         northeast;
     anchor:           northeast;
     y-offset:         44px;
@@ -49,7 +49,7 @@ listview {
     background-color: @al;
     padding:          4px;
     columns:          1;
-    lines:            3;
+    lines:            6;
     spacing:          2px;
     cycle:            false;
     dynamic:          false;
