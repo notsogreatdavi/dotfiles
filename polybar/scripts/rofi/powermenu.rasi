@@ -15,7 +15,10 @@ window {
     border-color:     @ac;
     border-radius:    6px;
     width:            280px;
-    location:         center;
+    location:         northeast;
+    anchor:           northeast;
+    y-offset:         44px;
+    x-offset:         -8px;
 }
 
 prompt {
