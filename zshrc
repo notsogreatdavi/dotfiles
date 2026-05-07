@@ -114,5 +114,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# TERM=xterm-kitty apenas para ranger — habilita Kitty Graphics Protocol sem afetar o TERM global.
+alias ranger='TERM=xterm-kitty ranger'
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
