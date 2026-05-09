@@ -1,19 +1,12 @@
 #!/usr/bin/env bash
-# Captura região da tela com janelas 100% opacas.
-# Para o picom durante o disparo para evitar transparência composta no PNG.
+# Captura região da tela e copia para o clipboard.
+# Para garantir 100% de opacidade, coloque a janela alvo em fullscreen ($mod+f no i3)
+# antes de disparar — o picom força opacity=1.0 em janelas com _NET_WM_STATE_FULLSCREEN.
 set -euo pipefail
 
 readonly OUT_DIR="$HOME/Pictures/Screenshots"
 readonly TIMESTAMP="$(date +%Y-%m-%d_%H-%M-%S)"
 readonly OUT_FILE="$OUT_DIR/screenshot-$TIMESTAMP.png"
-
-stop_picom() {
-    pgrep -x picom >/dev/null && pkill -x picom && sleep 0.2 || true
-}
-
-start_picom() {
-    setsid picom -b >/dev/null 2>&1 || true
-}
 
 capture_region() {
     maim -s "$OUT_FILE"
@@ -25,16 +18,7 @@ copy_to_clipboard() {
 
 main() {
     mkdir -p "$OUT_DIR"
-    local picom_was_running=0
-    pgrep -x picom >/dev/null && picom_was_running=1
-
-    stop_picom
-    if ! capture_region; then
-        [ "$picom_was_running" -eq 1 ] && start_picom
-        exit 1
-    fi
-    [ "$picom_was_running" -eq 1 ] && start_picom
-
+    capture_region || exit 1
     copy_to_clipboard
     notify-send "Screenshot" "Salvo em $OUT_FILE" 2>/dev/null || true
 }
