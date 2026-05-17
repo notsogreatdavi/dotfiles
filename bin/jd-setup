@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+# Recria a estrutura Johnny Decimal no home e configura o ambiente XDG.
+# Idempotente: seguro de rodar em máquinas novas ou existentes.
+# Uso: bash jd-setup  (chamado pelo install.sh)
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# --- Estrutura de diretórios JD ---
+
+create_jd_structure() {
+    mkdir -p \
+        "$HOME/00-09_meta/01_inbox/01.01_inbox" \
+        "$HOME/00-09_meta/02_indices" \
+        "$HOME/10-19_dev/11_pessoal" \
+        "$HOME/10-19_dev/12_dados-visao" \
+        "$HOME/10-19_dev/13_infra" \
+        "$HOME/20-29_academico/21_comp-grafica" \
+        "$HOME/20-29_academico/22_banco-dados" \
+        "$HOME/20-29_academico/23_redes" \
+        "$HOME/20-29_academico/24_sandbox" \
+        "$HOME/30-39_conhecimento/31_notas" \
+        "$HOME/30-39_conhecimento/32_documentos/32.01_docs" \
+        "$HOME/30-39_conhecimento/33_referencias" \
+        "$HOME/40-49_midia/41_imagens/41.01_pictures" \
+        "$HOME/40-49_midia/42_downloads/42.01_downloads" \
+        "$HOME/50-59_jogos/51_instalados" \
+        "$HOME/50-59_jogos/52_wrappers" \
+        "$HOME/90-99_arquivo/91_projetos" \
+        "$HOME/90-99_arquivo/92_temporarios"
+    echo -e "${GREEN}  criado: estrutura JD (7 áreas, 18 categorias)${NC}"
+}
+
+# --- Symlinks XDG ---
+# Se já é symlink: mantém. Se é diretório real: migra conteúdo e substitui.
+# Se não existe: cria symlink direto.
+
+setup_xdg_symlink() {
+    local jd_path="$1"
+    local xdg_path="$2"
+    local label
+    label="$(basename "$xdg_path")"
+
+    if [[ -L "$xdg_path" ]]; then
+        echo -e "${GREEN}  existe: ~/${label} (symlink)${NC}"
+    elif [[ -d "$xdg_path" ]]; then
+        mv "$xdg_path"/* "$jd_path"/ 2>/dev/null || true
+        rmdir "$xdg_path" 2>/dev/null || rm -rf "$xdg_path"
+        ln -s "$jd_path" "$xdg_path"
+        echo -e "${YELLOW}  migrado: ~/${label} → ${jd_path}${NC}"
+    else
+        ln -s "$jd_path" "$xdg_path"
+        echo -e "${GREEN}  symlink: ~/${label} → ${jd_path}${NC}"
+    fi
+}
+
+setup_xdg() {
+    setup_xdg_symlink "$HOME/40-49_midia/42_downloads/42.01_downloads" "$HOME/Downloads"
+    setup_xdg_symlink "$HOME/30-39_conhecimento/32_documentos/32.01_docs" "$HOME/Documents"
+    setup_xdg_symlink "$HOME/40-49_midia/41_imagens/41.01_pictures" "$HOME/Pictures"
+}
+
+# --- user-dirs: protege contra reset pelo xdg-user-dirs-update ---
+
+setup_user_dirs() {
+    local dirs_file="$HOME/.config/user-dirs.dirs"
+    local conf_file="$HOME/.config/user-dirs.conf"
+
+    if grep -q "Johnny Decimal" "$dirs_file" 2>/dev/null; then
+        echo -e "${GREEN}  existe: user-dirs.dirs (já configurado para JD)${NC}"
+    else
+        cat > "$dirs_file" <<EOF
+# Gerenciado manualmente — xdg-user-dirs-update desabilitado via user-dirs.conf
+# Paths apontam diretamente para o sistema Johnny Decimal.
+XDG_DESKTOP_DIR="\$HOME/Desktop"
+XDG_DOWNLOAD_DIR="\$HOME/40-49_midia/42_downloads/42.01_downloads"
+XDG_TEMPLATES_DIR="\$HOME/Templates"
+XDG_PUBLICSHARE_DIR="\$HOME/Public"
+XDG_DOCUMENTS_DIR="\$HOME/30-39_conhecimento/32_documentos/32.01_docs"
+XDG_MUSIC_DIR="\$HOME/40-49_midia"
+XDG_PICTURES_DIR="\$HOME/40-49_midia/41_imagens/41.01_pictures"
+XDG_VIDEOS_DIR="\$HOME/40-49_midia"
+EOF
+        echo -e "${GREEN}  criado: user-dirs.dirs (paths JD)${NC}"
+    fi
+
+    if [[ ! -f "$conf_file" ]]; then
+        echo "enabled=False" > "$conf_file"
+        echo -e "${GREEN}  criado: user-dirs.conf (atualizações automáticas desabilitadas)${NC}"
+    else
+        echo -e "${GREEN}  existe: user-dirs.conf${NC}"
+    fi
+}
+
+# --- JD Index: copia template do dotfiles se não existir ---
+
+setup_jd_index() {
+    local src="$DOTFILES_DIR/docs/JD-Index.md"
+    local dst="$HOME/00-09_meta/02_indices/JD-Index.md"
+
+    if [[ -f "$dst" ]]; then
+        echo -e "${GREEN}  existe: JD-Index.md${NC}"
+    elif [[ -f "$src" ]]; then
+        cp "$src" "$dst"
+        echo -e "${GREEN}  criado: JD-Index.md (de docs/JD-Index.md)${NC}"
+    else
+        echo -e "${YELLOW}  aviso: docs/JD-Index.md não encontrado no dotfiles${NC}"
+    fi
+}
+
+# --- Systemd timer: alerta de inbox ---
+
+setup_timers() {
+    if ! command -v systemctl &>/dev/null; then
+        echo -e "${YELLOW}  aviso: systemctl não encontrado, timer não ativado${NC}"
+        return
+    fi
+    systemctl --user daemon-reload 2>/dev/null
+    systemctl --user enable --now jd-inbox-check.timer 2>/dev/null \
+        && echo -e "${GREEN}  ativado: jd-inbox-check.timer${NC}" \
+        || echo -e "${YELLOW}  aviso: jd-inbox-check.timer não encontrado (instale as units primeiro)${NC}"
+}
+
+# --- Execução ---
+
+echo "==> Estrutura Johnny Decimal..."
+create_jd_structure
+
+echo ""
+echo "==> Symlinks XDG..."
+setup_xdg
+
+echo ""
+echo "==> Configuração xdg-user-dirs..."
+setup_user_dirs
+
+echo ""
+echo "==> Índice JD..."
+setup_jd_index
+
+echo ""
+echo "==> Timer de inbox..."
+setup_timers
