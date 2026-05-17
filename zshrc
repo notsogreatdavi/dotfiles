@@ -161,7 +161,7 @@ jd-new() {
 
     local last_id
     last_id=$(find "$parent" -maxdepth 1 -type d -name "${category}.*" 2>/dev/null \
-        | sed "s|.*/${category}\\.||" | sort -n | tail -1)
+        | sed "s|.*/${category}\\.\\([0-9]*\\).*|\\1|" | sort -n | tail -1)
     local next_id=$(( ${last_id:-0} + 1 ))
     local padded
     printf -v padded "%02d" "$next_id"
