@@ -27,11 +27,13 @@ create_jd_structure() {
         "$HOME/30-39_conhecimento/33_referencias" \
         "$HOME/40-49_midia/41_imagens/41.01_pictures" \
         "$HOME/40-49_midia/42_downloads/42.01_downloads" \
+        "$HOME/40-49_midia/43_musica/43.01_musica" \
+        "$HOME/40-49_midia/44_videos/44.01_videos" \
         "$HOME/50-59_jogos/51_instalados" \
         "$HOME/50-59_jogos/52_wrappers" \
         "$HOME/90-99_arquivo/91_projetos" \
         "$HOME/90-99_arquivo/92_temporarios"
-    echo -e "${GREEN}  criado: estrutura JD (7 áreas, 18 categorias)${NC}"
+    echo -e "${GREEN}  criado: estrutura JD (7 áreas, 20 categorias)${NC}"
 }
 
 # --- Symlinks XDG ---
@@ -111,17 +113,20 @@ setup_jd_index() {
     fi
 }
 
-# --- Systemd timer: alerta de inbox ---
+# --- Systemd units: inbox check + organizer no login ---
 
 setup_timers() {
     if ! command -v systemctl &>/dev/null; then
-        echo -e "${YELLOW}  aviso: systemctl não encontrado, timer não ativado${NC}"
+        echo -e "${YELLOW}  aviso: systemctl não encontrado, units não ativadas${NC}"
         return
     fi
     systemctl --user daemon-reload 2>/dev/null
     systemctl --user enable --now jd-inbox-check.timer 2>/dev/null \
         && echo -e "${GREEN}  ativado: jd-inbox-check.timer${NC}" \
-        || echo -e "${YELLOW}  aviso: jd-inbox-check.timer não encontrado (instale as units primeiro)${NC}"
+        || echo -e "${YELLOW}  aviso: jd-inbox-check.timer não encontrado${NC}"
+    systemctl --user enable jd-organizer.service 2>/dev/null \
+        && echo -e "${GREEN}  ativado: jd-organizer.service (login)${NC}" \
+        || echo -e "${YELLOW}  aviso: jd-organizer.service não encontrado${NC}"
 }
 
 # --- Execução ---

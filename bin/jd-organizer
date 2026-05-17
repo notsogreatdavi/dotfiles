@@ -1,0 +1,203 @@
+#!/usr/bin/env bash
+# Organiza arquivos nos diretórios monitorados segundo o sistema Johnny Decimal.
+# Modo conservador: imagens/vídeos/músicas vão para destinos fixos;
+# tudo ambíguo (PDFs, código, archives) vai para o inbox.
+# Executado automaticamente no login via systemd (jd-organizer.service).
+
+# --- Destinos ---
+PICTURES="$HOME/40-49_midia/41_imagens/41.01_pictures"
+SCREENSHOTS="$HOME/40-49_midia/41_imagens/41.01_pictures/Screenshots"
+VIDEOS="$HOME/40-49_midia/44_videos/44.01_videos"
+MUSICA="$HOME/40-49_midia/43_musica/43.01_musica"
+INBOX="$HOME/00-09_meta/01_inbox/01.01_inbox"
+LOG="$HOME/00-09_meta/jd-organizer.log"
+
+# --- Contadores para notificação ---
+moved=0
+inboxed=0
+skipped=0
+
+# --- Whitelist da raiz do home (nunca mover) ---
+HOME_WHITELIST="CHANGELOG.md CLAUDE.md AGENTS.md youtube_token.json"
+
+log_entry() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $1" >> "$LOG"
+}
+
+# Retorna o diretório de destino para um arquivo ou "INBOX" se ambíguo.
+classify_file() {
+    local file="$1"
+    local name
+    name="$(basename "$file")"
+    local lower="${name,,}"
+    local ext="${lower##*.}"
+
+    # Screenshot pelo nome do arquivo
+    if [[ "$lower" == *screenshot* || "$lower" == screen-* ]]; then
+        echo "$SCREENSHOTS"
+        return
+    fi
+
+    case "$ext" in
+        jpg|jpeg|png|gif|webp|bmp|tiff|heic)
+            echo "$PICTURES" ;;
+        mp4|mkv|avi|mov|webm|m4v)
+            echo "$VIDEOS" ;;
+        mp3|flac|wav|ogg|opus|aac|m4a)
+            echo "$MUSICA" ;;
+        *)
+            echo "$INBOX" ;;
+    esac
+}
+
+# Verifica se é seguro mover o arquivo agora.
+is_safe_to_move() {
+    local file="$1"
+    local name
+    name="$(basename "$file")"
+
+    # Arquivos ocultos
+    [[ "$name" == .* ]] && return 1
+
+    # Downloads incompletos
+    local ext="${name##*.}"
+    case "${ext,,}" in
+        crdownload|part|tmp|download|swp|lock) return 1 ;;
+    esac
+
+    # Arquivo modificado há menos de 1 minuto (pode estar sendo gravado)
+    [[ -n "$(find "$file" -maxdepth 0 -mmin +1 2>/dev/null)" ]] || return 1
+
+    return 0
+}
+
+move_file() {
+    local src="$1"
+    local dst_dir="$2"
+    local name
+    name="$(basename "$src")"
+
+    mkdir -p "$dst_dir"
+
+    # Renomeia em caso de conflito
+    local dst="$dst_dir/$name"
+    if [[ -e "$dst" ]]; then
+        dst="$dst_dir/${name%.*}_$(date +%s).${name##*.}"
+    fi
+
+    if mv "$src" "$dst"; then
+        if [[ "$dst_dir" == "$INBOX" ]]; then
+            log_entry "[INBOX] $src → $dst_dir/"
+            (( inboxed++ ))
+        else
+            log_entry "[MOVE]  $src → $dst_dir/"
+            (( moved++ ))
+        fi
+    else
+        log_entry "[ERRO]  $src (falha ao mover)"
+    fi
+}
+
+# --- Scan de um diretório (não recursivo) ---
+scan_dir() {
+    local dir="$1"
+    local allow_dirs="${2:-false}"  # se true, também processa diretórios
+
+    [[ -d "$dir" ]] || return
+
+    while IFS= read -r -d '' item; do
+        local name
+        name="$(basename "$item")"
+
+        # Arquivos ocultos: ignorar silenciosamente
+        [[ "$name" == .* ]] && continue
+
+        # Diretórios: só move para inbox se explicitamente permitido
+        if [[ -d "$item" ]]; then
+            [[ "$allow_dirs" == "true" ]] || continue
+            # Nunca move git repos
+            [[ -d "$item/.git" ]] && { log_entry "[SKIP]  $item (repositório git)"; (( skipped++ )); continue; }
+            move_file "$item" "$INBOX"
+            continue
+        fi
+
+        is_safe_to_move "$item" || { log_entry "[SKIP]  $item (em uso ou recente)"; (( skipped++ )); continue; }
+
+        local dest
+        dest="$(classify_file "$item")"
+        move_file "$item" "$dest"
+
+    done < <(find "$dir" -maxdepth 1 -mindepth 1 -print0)
+}
+
+# --- Scan da raiz do home (só arquivos soltos) ---
+scan_home_root() {
+    [[ -d "$HOME" ]] || return
+
+    while IFS= read -r -d '' item; do
+        [[ -f "$item" ]] || continue  # só arquivos, nunca diretórios
+
+        local name
+        name="$(basename "$item")"
+
+        # Arquivos ocultos: ignorar silenciosamente
+        [[ "$name" == .* ]] && continue
+
+        # Whitelist
+        for safe in $HOME_WHITELIST; do
+            [[ "$name" == $safe ]] && continue 2
+        done
+        # Credenciais OAuth (padrão client_secret_*)
+        [[ "$name" == client_secret_* ]] && continue
+
+        is_safe_to_move "$item" || { log_entry "[SKIP]  $item (em uso ou recente)"; (( skipped++ )); continue; }
+
+        local dest
+        dest="$(classify_file "$item")"
+        move_file "$item" "$dest"
+
+    done < <(find "$HOME" -maxdepth 1 -mindepth 1 -print0)
+}
+
+# --- Scan do Desktop (ignora .desktop) ---
+scan_desktop() {
+    local desktop="$HOME/Desktop"
+    [[ -d "$desktop" ]] || return
+
+    while IFS= read -r -d '' item; do
+        [[ -f "$item" ]] || continue
+
+        local name
+        name="$(basename "$item")"
+
+        # Atalhos do sistema — manter
+        [[ "${name,,}" == *.desktop ]] && continue
+
+        is_safe_to_move "$item" || { log_entry "[SKIP]  $item (em uso ou recente)"; (( skipped++ )); continue; }
+
+        local dest
+        dest="$(classify_file "$item")"
+        move_file "$item" "$dest"
+
+    done < <(find "$desktop" -maxdepth 1 -mindepth 1 -print0)
+}
+
+# --- Execução ---
+
+log_entry "[START] jd-organizer iniciado"
+
+scan_dir "$HOME/40-49_midia/42_downloads/42.01_downloads"
+scan_home_root
+scan_desktop
+
+log_entry "[END]   movidos=$moved inbox=$inboxed ignorados=$skipped"
+
+# Notificação apenas se houve ação
+total=$(( moved + inboxed ))
+if (( total > 0 )); then
+    notify-send \
+        "JD Organizer" \
+        "${moved} organizado(s) • ${inboxed} no inbox" \
+        --urgency=low \
+        --icon=folder-open
+fi

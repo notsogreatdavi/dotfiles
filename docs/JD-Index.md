@@ -62,6 +62,10 @@ Mapa completo do sistema de arquivos. Todo ID é único — use para navegação
   - 41.01 pictures — capturas e imagens (symlink ← ~/Pictures)
 - **42 Downloads** — staging area, limpar periodicamente
   - 42.01 downloads — arquivos baixados (symlink ← ~/Downloads)
+- **43 Música** — arquivos de áudio (mp3, flac, ogg, opus…)
+  - 43.01 musica — biblioteca de música local
+- **44 Vídeos** — arquivos de vídeo (mp4, mkv, avi…)
+  - 44.01 videos — vídeos locais
 
 ---
 
