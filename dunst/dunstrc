@@ -1,0 +1,74 @@
+[global]
+    font = JetBrainsMono 10
+    markup = full
+    format = "<span foreground='#88C0D0'><b>%s</b></span>\n%b"
+
+    width = 320
+    height = (0, 200)
+    origin = top-right
+    offset = (12, 48)
+
+    corner_radius = 10
+    corners = all
+    frame_width = 2
+    frame_color = "#5E81AC"
+
+    separator_height = 1
+    separator_color = "#4C566A"
+    padding = 12
+    horizontal_padding = 12
+    text_icon_padding = 8
+
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 1
+    progress_bar_corner_radius = 2
+    progress_bar_min_width = 150
+    progress_bar_max_width = 280
+
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+    icon_corner_radius = 2
+    enable_recursive_icon_lookup = true
+    icon_theme = Adwaita
+
+    alignment = left
+    vertical_alignment = center
+    line_height = 2
+    ellipsize = middle
+    show_age_threshold = 60
+    stack_duplicates = true
+    notification_limit = 5
+
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+    follow = none
+    sort = yes
+    sticky_history = yes
+    history_length = 20
+    dmenu = /usr/bin/dmenu -p dunst:
+    browser = /usr/bin/xdg-open
+
+[urgency_low]
+    background = "#2E3440"
+    foreground = "#4C566A"
+    frame_color = "#3B4252"
+    timeout = 8
+    default_icon = dialog-information
+
+[urgency_normal]
+    background = "#2E3440"
+    foreground = "#D8DEE9"
+    frame_color = "#5E81AC"
+    timeout = 10
+    default_icon = dialog-information
+
+[urgency_critical]
+    background = "#2E3440"
+    foreground = "#ECEFF4"
+    frame_color = "#BF616A"
+    timeout = 0
+    default_icon = dialog-warning
