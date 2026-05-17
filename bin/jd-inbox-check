@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Alerta desktop quando o JD inbox tem itens aguardando classificação.
+# Executado pelo systemd user timer jd-inbox-check.timer.
+
+INBOX="$HOME/00-09_meta/01_inbox/01.01_inbox"
+count=$(find "$INBOX" -mindepth 1 -maxdepth 1 2>/dev/null | wc -l)
+
+[[ "$count" -gt 0 ]] && notify-send \
+    "JD Inbox" \
+    "$count item(s) aguardando classificação" \
+    --urgency=low \
+    --icon=folder

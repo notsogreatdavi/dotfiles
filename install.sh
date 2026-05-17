@@ -92,6 +92,19 @@ if command -v sddm &>/dev/null; then
 fi
 
 echo ""
+echo "==> Ativando systemd user timers..."
+
+setup_timers() {
+    systemctl --user daemon-reload
+    systemctl --user enable --now jd-inbox-check.timer
+    echo -e "${GREEN}  jd-inbox-check.timer: ativado${NC}"
+}
+
+if command -v systemctl &>/dev/null; then
+    setup_timers
+fi
+
+echo ""
 echo "==> Concluído."
 echo ""
 echo "Próximos passos manuais:"

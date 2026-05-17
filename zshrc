@@ -131,5 +131,51 @@ zed() {
     "$HOME/.local/bin/zed" "$@"
 }
 
+# --- Johnny Decimal ---
+
+# Navega para qualquer diretório JD pelo ID numérico (ex: cj 11.01)
+cj() {
+    local target
+    target=$(find "$HOME" -maxdepth 4 -type d -name "${1}*" 2>/dev/null | head -1)
+    [[ -n "$target" ]] && cd "$target" || echo "JD: ID '$1' não encontrado"
+}
+
+# Cria um novo projeto no local correto do JD com numeração automática
+# Uso: jd-new <categoria> <nome>  ex: jd-new 11 meu-projeto
+jd-new() {
+    local category="$1"
+    local name="$2"
+
+    if [[ -z "$category" || -z "$name" ]]; then
+        echo "Uso: jd-new <categoria> <nome>  ex: jd-new 11 meu-projeto"
+        return 1
+    fi
+
+    local parent
+    parent=$(find "$HOME" -maxdepth 2 -type d -name "${category}_*" 2>/dev/null | head -1)
+
+    if [[ -z "$parent" ]]; then
+        echo "JD: categoria '${category}' não encontrada"
+        return 1
+    fi
+
+    local last_id
+    last_id=$(find "$parent" -maxdepth 1 -type d -name "${category}.*" 2>/dev/null \
+        | sed "s|.*/${category}\\.||" | sort -n | tail -1)
+    local next_id=$(( ${last_id:-0} + 1 ))
+    local padded
+    printf -v padded "%02d" "$next_id"
+
+    local new_dir="${parent}/${category}.${padded}_${name}"
+    mkdir -p "$new_dir" && cd "$new_dir" && echo "✓ Criado: $new_dir"
+}
+
+alias jd-dev="cd $HOME/10-19_dev"
+alias jd-inbox="cd $HOME/00-09_meta/01_inbox/01.01_inbox"
+alias jd-docs="cd $HOME/30-39_conhecimento/32_documentos/32.01_docs"
+alias jd-ref="cd $HOME/30-39_conhecimento/33_referencias"
+alias jd-acad="cd $HOME/20-29_academico"
+alias jd-arquivo="cd $HOME/90-99_arquivo"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
