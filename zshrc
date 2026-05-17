@@ -15,6 +15,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # Isso permite que scripts instalados via pip/pipx sejam encontrados
 export PATH="$HOME/.local/bin:$PATH"
 
+export GOPATH="$HOME/10-19_dev/13_infra/13.02_go"
+export PATH="$GOPATH/bin:$PATH"
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
