@@ -5,26 +5,16 @@
 
 /*****----- Global Properties -----*****/
 * {
-    /* Paleta de Cores Nord */
-    nord0:                       #2E3440; /* Polar Night */
-    nord1:                       #3B4252;
-    nord3:                       #4C566A;
-    nord4:                       #D8DEE9; /* Snow Storm */
-    nord6:                       #ECEFF4;
-    nord8:                       #88C0D0; /* Frost */
-    nord10:                      #5E81AC;
-    nord14:                      #A3BE8C; /* Aurora (Green) */
-    nord15:                      #B48EAD; /* Aurora (Purple) */
+    /* Stratus palette */
+    background:                  #0C1018; /* dark.background */
+    background-alt:              #131B28; /* dark.surface */
+    text:                        #7A90A8; /* text.secondary */
+    text-primary:                #C8D4E3; /* text.primary */
+    primary:                     #6BA3E8; /* accent.primary */
+    secondary:                   #8B6FBE; /* accent.secondary */
+    urgent:                      #8B6FBE; /* accent.secondary */
 
-    /* Mapeamento de cores para o tema */
-    background:                  @nord0;
-    background-alt:              @nord1;
-    text:                        @nord4;
-    primary:                     @nord8;
-    secondary:                   @nord10;
-    urgent:                      @nord15;
-    
-    font:                        "JetBrains Mono Nerd Font 10";
+    font:                        "VictorMono Nerd Font 10";
 }
 
 /*****----- Configuration -----*****/
@@ -44,7 +34,7 @@ window {
     location:                    center;
     anchor:                      center;
     width:                       600px;
-    border-radius:               15px;
+    border-radius:               5px;
     background-color:            @background;
 }
 
@@ -74,7 +64,7 @@ mode-switcher {
 }
 button {
     padding:                     10px 15px;
-    border-radius:               10px;
+    border-radius:               5px;
     background-color:            @background-alt;
     text-color:                  inherit;
     cursor:                      pointer;
@@ -89,7 +79,7 @@ inputbar {
     enabled:                     true;
     spacing:                     15px;
     padding:                     15px;
-    border-radius:               10px;
+    border-radius:               5px;
     background-color:            @background-alt;
     text-color:                  @text;
     orientation:                 horizontal;
@@ -100,13 +90,13 @@ textbox-prompt-colon {
     expand:                      false;
     str:                         "";
     padding:                     10px 15px;
-    border-radius:               10px;
+    border-radius:               5px;
     background-color:            @secondary;
-    text-color:                  @nord6;
+    text-color:                  @text-primary;
 }
 entry {
     padding:                     10px 16px;
-    border-radius:               10px;
+    border-radius:               5px;
     background-color:            @background-alt;
     text-color:                  inherit;
     cursor:                      text;
@@ -130,7 +120,7 @@ listview {
 /*****----- Elements -----*****/
 element {
     padding:                     10px;
-    border-radius:               10px;
+    border-radius:               5px;
     background-color:            transparent;
     text-color:                  @text;
     cursor:                      pointer;
@@ -162,13 +152,13 @@ message {
 }
 textbox {
     padding:                     12px;
-    border-radius:               10px;
+    border-radius:               5px;
     background-color:            @background-alt;
     text-color:                  @text;
 }
 error-message {
     padding:                     12px;
-    border-radius:               10px;
+    border-radius:               5px;
     background-color:            @background;
     text-color:                  @urgent;
 }

@@ -2,8 +2,8 @@
 
 COLORS_FILE="$HOME/.config/polybar/scripts/rofi/colors.rasi"
 
-# Nord palette — frost + aurora accent options
-COLORS=('#8FBCBB' '#88C0D0' '#81A1C1' '#5E81AC' '#A3BE8C' '#B48EAD' '#BF616A')
+# Stratus accent options
+COLORS=('#6BA3E8' '#8B6FBE' '#45C4C4')
 AC="${COLORS[$(( RANDOM % ${#COLORS[@]} ))]}"
 
 sed -i -e "s/ac: .*/ac:  ${AC}FF;/" "$COLORS_FILE"

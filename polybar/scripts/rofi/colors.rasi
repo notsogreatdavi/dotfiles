@@ -1,11 +1,11 @@
-/* Nord palette — ac and se are overwritten dynamically by launcher.sh */
+/* Stratus palette — ac and se are overwritten dynamically by launcher.sh */
 
 * {
-  al:  #00000000;
-  bg:  #2E3440FF;
-  bga: #3B4252FF;
-  fg:  #ECEFF4FF;
-  fga: #D8DEE9FF;
-  ac:  #BF616AFF;
-  se:  #BF616A40;
+  al:  #00000000;       /* transparent */
+  bg:  #0C1018FF;       /* dark.background */
+  bga: #131B28FF;       /* dark.surface */
+  fg:  #C8D4E3FF;       /* text.primary */
+  fga: #7A90A8FF;       /* text.secondary */
+  ac:  #6BA3E8FF;       /* accent.primary */
+  se:  #6BA3E840;       /* accent.primary @ 40% */
 }

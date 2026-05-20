@@ -3,6 +3,7 @@ configuration {
     show-icons:      false;
     hide-scrollbar:  true;
     sidebar-mode:    false;
+    markup-rows:     true;
 }
 
 @import "colors.rasi"
@@ -14,26 +15,22 @@ window {
     border:           1px;
     border-color:     @ac;
     border-radius:    5px;
-    width:            320px;
-    location:         northeast;
-    anchor:           northeast;
+    width:            196px;
+    location:         north;
+    anchor:           north;
     y-offset:         44px;
-    x-offset:         -8px;
+    x-offset:         0px;
 }
 
 prompt {
     enabled:          true;
-    padding:          6px 8px;
+    padding:          4px 5px;
     background-color: @bga;
     text-color:       @ac;
 }
 
 entry {
-    background-color: @al;
-    text-color:       @al;
-    placeholder:      "";
-    expand:           false;
-    width:            0px;
+    enabled:          false;
 }
 
 inputbar {
@@ -47,10 +44,10 @@ inputbar {
 
 listview {
     background-color: @al;
-    padding:          4px;
+    padding:          2px;
     columns:          1;
-    lines:            6;
-    spacing:          2px;
+    lines:            12;
+    spacing:          1px;
     cycle:            false;
     dynamic:          false;
     layout:           vertical;
@@ -69,12 +66,13 @@ element {
     text-color:       @fga;
     orientation:      horizontal;
     border-radius:    4px;
-    padding:          6px 10px;
+    padding:          1px 3px;
 }
 
 element-text {
     background-color: transparent;
     text-color:       inherit;
+    font:             "VictorMono Nerd Font Mono 10";
     expand:           true;
     horizontal-align: 0;
     vertical-align:   0.5;
