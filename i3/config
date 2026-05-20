@@ -20,22 +20,32 @@ set $refresh_i3status killall -SIGUSR1 i3status
 
 # ─── Aparência ────────────────────────────────────────────────────────────────
 
-font pango:monospace 8
+font pango:VictorMono Nerd Font 9
 
-# Nord color scheme
-# classe              borda     fundo     texto     indicador child_border
-client.focused          #88C0D0   #2E3440   #D8DEE9   #88C0D0   #2E3440
-client.focused_inactive #4C566A   #2E3440   #D8DEE9   #4C566A   #2E3440
-client.unfocused        #434C5E   #2E3440   #D8DEE9   #4C566A   #2E3440
-client.urgent           #BF616A   #2E3440   #D8DEE9   #BF616A   #2E3440
-client.placeholder      #000000   #000000   #FFFFFF   #000000   #000000
-client.background       #2E3440
+# Stratus color scheme
+set $bg         #0C1018
+set $surface    #131B28
+set $elevated   #1B2637
+set $border     #293849
+set $text       #C8D4E3
+set $text_dim   #7A90A8
+set $text_muted #4A5A70
+set $accent     #6BA3E8
+set $urgent     #CC6070
+
+# classe              borda      fundo       texto       indicador  child_border
+client.focused          $accent    $elevated   $text       $accent    $accent
+client.focused_inactive $border    $surface    $text_dim   $border    $border
+client.unfocused        $border    $bg         $text_muted $border    $bg
+client.urgent           $urgent    $elevated   $text       $urgent    $urgent
+client.placeholder      #000000    #000000     #FFFFFF     #000000    #000000
+client.background       $bg
 
 for_window [class="^."]       border pixel 2
 for_window [class="^Polybar"] floating enable
 
-gaps inner 10
-gaps outer 5
+gaps inner 8
+gaps outer 4
 gaps top 12
 
 # ─── Comportamento de Mouse ───────────────────────────────────────────────────
