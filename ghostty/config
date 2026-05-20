@@ -21,17 +21,39 @@ window-padding-y = 0
 # Estilo do cursor (block, beam, underline).
 cursor-style = block
 
+# --- Paleta Stratus ---
+background        = #0C1018
+foreground        = #C8D4E3
+cursor-color      = #6BA3E8
+selection-background = #131B28
+selection-foreground = #C8D4E3
+
+# ANSI normal (0-7)
+palette = 0=#0C1018
+palette = 1=#CC6070
+palette = 2=#7ABF8A
+palette = 3=#E0B84A
+palette = 4=#6BA3E8
+palette = 5=#8B6FBE
+palette = 6=#45C4C4
+palette = 7=#7A90A8
+
+# ANSI bright (8-15)
+palette = 8=#293849
+palette = 9=#E0788A
+palette = 10=#95D4A5
+palette = 11=#ECC860
+palette = 12=#88B8F0
+palette = 13=#A889D2
+palette = 14=#65D4D4
+palette = 15=#C8D4E3
+
 
 # -------------------------------------------------------------------
 # Fontes (Fonts)
 # -------------------------------------------------------------------
-# Define a família da fonte principal.
-font-family = "JetBrainsMono Nerd Font"
-
-# Define o tamanho da fonte.
+font-family = "VictorMono Nerd Font"
 font-size = 13
-
-# Ativa ligaturas da fonte (ex: '!=' vira '≠').
 font-feature = liga
 
 
