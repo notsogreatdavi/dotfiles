@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+get_output_at_cursor() {
+    local pos mx my
+    pos=$(xdotool getmouselocation)
+    mx=$(echo "$pos" | grep -oP 'x:\K[0-9]+')
+    my=$(echo "$pos" | grep -oP 'y:\K[0-9]+')
+
+    xrandr --query | awk -v mx="$mx" -v my="$my" '
+        /connected/ && / [0-9]+x[0-9]+\+[0-9]+\+[0-9]+/ {
+            if (match($0, /([0-9]+)x([0-9]+)\+([0-9]+)\+([0-9]+)/, a)) {
+                if (mx >= a[3]+0 && mx < a[3]+a[1]+0 && my >= a[4]+0 && my < a[4]+a[2]+0) {
+                    print $1; exit
+                }
+            }
+        }
+    '
+}
+
+get_current_rotation() {
+    local output="$1"
+    xrandr --query | awk -v out="$output" '
+        $1 == out {
+            if (match($0, /[0-9]+x[0-9]+\+[0-9]+\+[0-9]+ ([a-z]+)/, a))
+                print a[1]
+            else
+                print "normal"
+        }
+    '
+}
+
+main() {
+    local output rotation
+    output=$(get_output_at_cursor)
+    [[ -z "$output" ]] && exit 1
+
+    rotation=$(get_current_rotation "$output")
+
+    case "$rotation" in
+        left) xrandr --output "$output" --rotate normal ;;
+        *)    xrandr --output "$output" --rotate left   ;;
+    esac
+}
+
+main
