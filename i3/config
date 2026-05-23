@@ -177,7 +177,9 @@ bindsym $mod+r mode "resize"
 
 exec          --no-startup-id dunst
 exec          --no-startup-id dex --autostart --environment i3
+exec          --no-startup-id xset s off
 exec          --no-startup-id xss-lock --transfer-sleep-lock -- lock
+exec          --no-startup-id xidlehook --not-when-audio --not-when-fullscreen --timer 600 'lock' ''
 exec          --no-startup-id dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP=i3
 exec          --no-startup-id i3-msg "workspace 4; workspace 3; workspace 2; workspace 1"
 
