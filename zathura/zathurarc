@@ -24,4 +24,4 @@ set recolor                     "true"
 set render-loading              "false"
 set scroll-step                 50
 set synctex true
-set synctex-editor-command "code --goto %f:%l"
+set synctex-editor-command "nvim --headless -c \"VimtexInverseSearch %l '%f'\""
