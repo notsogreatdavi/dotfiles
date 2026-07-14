@@ -92,6 +92,17 @@ if command -v sddm &>/dev/null; then
     setup_sddm
 fi
 
+setup_refind() {
+    sudo cp "$DOTFILES_DIR/refind/refind.conf" /boot/EFI/refind/refind.conf
+    sudo mkdir -p /boot/EFI/refind/themes/stratus
+    sudo cp "$DOTFILES_DIR/refind/themes/stratus/"* /boot/EFI/refind/themes/stratus/
+    echo -e "${GREEN}  refind: config e tema Stratus aplicados${NC}"
+}
+
+if [ -d /boot/EFI/refind ]; then
+    setup_refind
+fi
+
 echo ""
 echo "==> Configurando estrutura Johnny Decimal..."
 bash "$DOTFILES_DIR/bin/jd-setup"
