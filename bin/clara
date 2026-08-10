@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Sobe a Clara de qualquer diretório.
+#
+# `uv run` procura o projeto a partir do cwd, e quem chama a Clara está sempre em
+# outro lugar — daí o --project explícito. Sem isto, o launcher só funcionaria de
+# dentro da pasta do projeto, que é exatamente o atrito que ele existe para tirar.
+#
+# clara          conversa por texto
+# clara --voz    push-to-talk no terminal
+# clara --discord  atende no canal de voz
+exec uv run --project "$HOME/10-19_dev/11_pessoal/11.02_clara" clara "$@"
