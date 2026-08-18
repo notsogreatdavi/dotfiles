@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+# Amostra carga e temperatura durante uma chamada de vídeo do Telegram e
+# marca o instante em que a CaptureThread para de entregar frames.
+#
+# Uso: tg-call-watch            (imprime na tela)
+#      tg-call-watch > /tmp/tg-call.log
+
+set -uo pipefail
+
+readonly INTERVAL=5
+readonly TELEGRAM_LOG="$HOME/.local/share/TelegramDesktop/log.txt"
+readonly STALL_MARKER='framerate 0.000000'
+
+telegram_pid() {
+    pgrep -f '^telegram-desktop' | head -1
+}
+
+cpu_percent() {
+    local pid="$1"
+    top -b -n 2 -d 0.4 -p "$pid" 2>/dev/null \
+        | awk -v p="$pid" '$1 == p { last = $9 } END { print last + 0 }'
+}
+
+resident_mb() {
+    local pid="$1"
+    awk '{ print int($1 / 1024) }' "/proc/$pid/statm" 2>/dev/null
+}
+
+average_mhz() {
+    awk '/cpu MHz/ { sum += $4; n++ } END { printf "%.0f", sum / n }' /proc/cpuinfo
+}
+
+package_temp() {
+    sensors 2>/dev/null | awk '/Package id 0/ { print $4; exit }'
+}
+
+stall_count() {
+    local count
+    count="$(grep -c "$STALL_MARKER" "$TELEGRAM_LOG" 2>/dev/null)"
+    echo "${count:-0}"
+}
+
+memory_available_mb() {
+    awk '/MemAvailable/ { print int($2 / 1024) }' /proc/meminfo
+}
+
+report_sample() {
+    local pid="$1" stalls="$2"
+    printf '%s cpu=%5s%% rss=%5sMB avail=%5sMB freq=%5sMHz temp=%-8s stalls=%s\n' \
+        "$(date +%T)" \
+        "$(cpu_percent "$pid")" \
+        "$(resident_mb "$pid")" \
+        "$(memory_available_mb)" \
+        "$(average_mhz)" \
+        "$(package_temp)" \
+        "$stalls"
+}
+
+main() {
+    local pid previous_stalls current_stalls
+    pid="$(telegram_pid)"
+    if [ -z "$pid" ]; then
+        echo "Telegram nao esta rodando." >&2
+        exit 1
+    fi
+
+    echo "Monitorando PID $pid a cada ${INTERVAL}s. Ctrl-C para parar."
+    previous_stalls="$(stall_count)"
+
+    while kill -0 "$pid" 2>/dev/null; do
+        current_stalls="$(stall_count)"
+        report_sample "$pid" "$current_stalls"
+        if [ "$current_stalls" -gt "$previous_stalls" ]; then
+            echo ">>> $(date +%T) CAPTURA TRAVOU (novo '$STALL_MARKER' no log)"
+            previous_stalls="$current_stalls"
+        fi
+        sleep "$INTERVAL"
+    done
+
+    echo "Telegram encerrou (PID $pid)."
+}
+
+main "$@"
