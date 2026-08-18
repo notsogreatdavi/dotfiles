@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Captura o backtrace de todas as threads do Telegram no momento em que a
+# videochamada congela, com os simbolos de telegram-desktop-bin-debug.
+#
+# Uso: rode DURANTE o congelamento, com a chamada ainda aberta:
+#     sudo tg-freeze-dump
+#
+# O processo e retomado ao final; o Telegram nao e encerrado.
+
+set -uo pipefail
+
+readonly OUTPUT_DIR="${TMPDIR:-/tmp}"
+readonly CAPTURE_THREADS='CaptureThread|Camera|Video|webrtc'
+
+telegram_pid() {
+    pgrep -f '^telegram-desktop' | head -1
+}
+
+dump_backtraces() {
+    local pid="$1" output="$2"
+    gdb --batch --quiet \
+        -ex 'set pagination off' \
+        -ex 'thread apply all bt' \
+        -p "$pid" > "$output" 2>&1
+}
+
+summarize_capture_threads() {
+    local output="$1"
+    echo "--- threads de captura/video ---"
+    grep -nE "Thread .*($CAPTURE_THREADS)" "$output" || echo "(nenhuma thread com esse nome)"
+}
+
+main() {
+    local pid output
+    pid="$(telegram_pid)"
+    if [ -z "$pid" ]; then
+        echo "Telegram nao esta rodando." >&2
+        exit 1
+    fi
+
+    output="$OUTPUT_DIR/tg-freeze-$(date +%Y%m%d-%H%M%S).txt"
+    echo "Anexando ao PID $pid. O app fica congelado por alguns segundos."
+    dump_backtraces "$pid" "$output"
+
+    echo "Backtrace salvo em: $output"
+    echo "Threads capturadas: $(grep -c '^Thread ' "$output")"
+    summarize_capture_threads "$output"
+}
+
+main "$@"
