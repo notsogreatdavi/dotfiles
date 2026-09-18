@@ -16,11 +16,11 @@ fi
 
 # Ícones horizontais do design (Font Awesome battery-full..empty, nível dentro do contorno)
 level_icon() {
-    if (( CAPACITY <= 10 )); then echo ""
-    elif (( CAPACITY <= 35 )); then echo ""
-    elif (( CAPACITY <= 60 )); then echo ""
-    elif (( CAPACITY <= 85 )); then echo ""
-    else echo ""
+    if (( CAPACITY <= 10 )); then echo $'\uf244'
+    elif (( CAPACITY <= 35 )); then echo $'\uf243'
+    elif (( CAPACITY <= 60 )); then echo $'\uf242'
+    elif (( CAPACITY <= 85 )); then echo $'\uf241'
+    else echo $'\uf240'
     fi
 }
 
