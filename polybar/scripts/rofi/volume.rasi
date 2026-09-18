@@ -1,5 +1,44 @@
-/* Stratus: volume e saída de áudio (sem filtro) */
+/* Stratus: volume (título + %, slider, saídas de áudio) */
 @import "menu.rasi"
 
-inputbar { children: [ prompt ]; }
-listview { lines: 6; cycle: false; }
+mainbox {
+    children:         [ inputbar, message, listview ];
+}
+
+inputbar {
+    children:         [ prompt, textbox-level ];
+    padding:          16px 16px 8px 16px;
+}
+
+prompt {
+    expand:           true;
+}
+
+/* O volumemenu.sh troca o str e a cor conforme o volume e o mudo */
+textbox-level {
+    background-color: @al;
+    expand:           false;
+    str:              "0%";
+    text-color:       @fga;
+    font:             "VictorMono Nerd Font 9";
+    vertical-align:   0.5;
+}
+
+/* Slider desenhado em caracteres de linha via -mesg (o message entra no
+ * cálculo da altura da janela; um textbox customizado esconderia a última linha) */
+message {
+    padding:          4px 16px 12px 16px;
+}
+
+textbox {
+    font:             "VictorMono Nerd Font Mono 13";
+}
+
+/* Mesma fonte no element e no element-text: o rofi mede a linha por um e desenha pelo outro */
+element, element-text {
+    font:             "Geist 11";
+}
+
+listview {
+    cycle:            false;
+}
