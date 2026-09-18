@@ -57,6 +57,7 @@ link "$DOTFILES_DIR/zathura"     "$CONFIG_DIR/zathura"
 link "$DOTFILES_DIR/spotifyd"    "$CONFIG_DIR/spotifyd"
 link "$DOTFILES_DIR/spotify-tui" "$CONFIG_DIR/spotify-tui"
 link "$DOTFILES_DIR/dunst"       "$CONFIG_DIR/dunst"
+link "$DOTFILES_DIR/betterlockscreen" "$CONFIG_DIR/betterlockscreen"
 
 # Scripts em ~/.local/bin
 mkdir -p "$HOME/.local/bin"

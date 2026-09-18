@@ -1,0 +1,49 @@
+# Stratus: lockscreen centrada (relógio, data, anel, dica)
+# Tokens em 11.06_visual-identity/design-system.md. Cores do i3lock-color em RRGGBBAA.
+
+# ─── Imagem ───────────────────────────────────────────────────────────────────
+fx_list=(dimblur)
+dim_level=45
+blur_level=4
+wallpaper_cmd="feh --bg-scale"
+
+# ─── Base (loginbox transparente: o layout vem dos lockargs abaixo) ───────────
+loginbox=00000000
+loginshadow=00000000
+font="Geist"
+time_format="%H:%M"
+locktext="toque o sensor ou digite a senha"
+bgcolor=0C1018ff
+
+# ─── Anel: dark.border em repouso, cor muda por estado ───────────────────────
+ringcolor=293849ff
+insidecolor=0C101899
+separatorcolor=00000000
+ringvercolor=6BA3E8ff
+insidevercolor=0C101899
+ringwrongcolor=CC6070ff
+insidewrongcolor=0C101899
+keyhlcolor=45C4C4ff
+bshlcolor=7A90A8ff
+modifcolor=E0B84Aff
+
+# ─── Texto ────────────────────────────────────────────────────────────────────
+timecolor=C8D4E3ff
+greetercolor=7A90A8ff
+layoutcolor=7A90A8ff
+verifcolor=6BA3E8ff
+wrongcolor=CC6070ff
+veriftext=""
+wrongtext=""
+
+# ─── Layout centralizado (sobrescreve as posições padrão do betterlockscreen) ─
+lockargs+=(
+    --time-pos="x+w/2:y+h*0.40" --time-align 0
+    --time-font="Geist SemiBold" --time-size=144
+    --date-str "%A, %d %B" --date-pos="tx:ty+56" --date-align 0
+    --date-color=7A90A8ff --date-font="Geist" --date-size=20
+    --ind-pos="x+w/2:y+h*0.62" --radius=64 --ring-width=3
+    --greeter-pos="ix:iy+116" --greeter-align 0 --greeter-size=14
+    --modif-pos="ix:iy+144" --modif-align 0 --modif-size=13
+    --layout-pos="x+w-48:y+h-40" --layout-align 2
+)
