@@ -1,0 +1,8 @@
+# Intel GPU — VA-API com driver iHD
+export LIBVA_DRIVER_NAME=iHD
+
+# Firefox/Zen — força EGL (mais estável que GLX no i915)
+export MOZ_X11_EGL=1
+
+# Firefox/Zen — WebRender acelerado explícito
+export MOZ_WEBRENDER=1

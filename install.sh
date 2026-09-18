@@ -42,6 +42,7 @@ echo "==> Criando symlinks..."
 link "$DOTFILES_DIR/zshrc"     "$HOME/.zshrc"
 link "$DOTFILES_DIR/tmux.conf" "$HOME/.tmux.conf"
 link "$DOTFILES_DIR/p10k.zsh"  "$HOME/.p10k.zsh"
+link "$DOTFILES_DIR/xprofile"  "$HOME/.xprofile"
 
 # Diretórios em ~/.config
 link "$DOTFILES_DIR/nvim"        "$CONFIG_DIR/nvim"
