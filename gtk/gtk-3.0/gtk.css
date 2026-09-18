@@ -1,0 +1,103 @@
+/* Stratus sobre Adwaita escuro (GTK 3)
+ * Tokens em 11.06_visual-identity/design-system.md */
+
+@define-color stratus_background #0C1018;
+@define-color stratus_surface    #131B28;
+@define-color stratus_elevated   #1B2637;
+@define-color stratus_border     #293849;
+@define-color stratus_text       #C8D4E3;
+@define-color stratus_text_dim   #7A90A8;
+@define-color stratus_muted      #4A5A70;
+@define-color stratus_accent     #6BA3E8;
+@define-color stratus_highlight  #45C4C4;
+@define-color stratus_success    #7ABF8A;
+@define-color stratus_warning    #E0B84A;
+@define-color stratus_error      #CC6070;
+
+/* Nomes que o Adwaita do GTK 3 lê */
+@define-color theme_bg_color               @stratus_background;
+@define-color theme_fg_color               @stratus_text;
+@define-color theme_base_color             @stratus_background;
+@define-color theme_text_color             @stratus_text;
+@define-color theme_selected_bg_color      @stratus_accent;
+@define-color theme_selected_fg_color      @stratus_background;
+@define-color theme_unfocused_bg_color     @stratus_background;
+@define-color theme_unfocused_fg_color     @stratus_text_dim;
+@define-color theme_unfocused_base_color   @stratus_background;
+@define-color theme_unfocused_text_color   @stratus_text_dim;
+@define-color theme_unfocused_selected_bg_color @stratus_elevated;
+@define-color theme_unfocused_selected_fg_color @stratus_text;
+@define-color insensitive_bg_color         @stratus_surface;
+@define-color insensitive_fg_color         @stratus_muted;
+@define-color borders                      @stratus_border;
+@define-color unfocused_borders            @stratus_border;
+@define-color warning_color                @stratus_warning;
+@define-color error_color                  @stratus_error;
+@define-color success_color                @stratus_success;
+
+/* Seleção de linha = dark.elevated com contorno de foco (accent fica para sliders e switches) */
+treeview.view:selected,
+iconview:selected,
+list row:selected,
+.view:selected {
+    background-color: @stratus_elevated;
+    color: @stratus_text;
+    box-shadow: inset 0 0 0 1px @stratus_accent;
+}
+
+headerbar,
+.titlebar {
+    background: @stratus_surface;
+    border-bottom: 1px solid @stratus_border;
+    box-shadow: none;
+}
+
+.sidebar,
+placessidebar,
+placessidebar list,
+.thunar .sidebar {
+    background-color: @stratus_surface;
+    border-right: 1px solid @stratus_border;
+}
+
+button,
+entry,
+spinbutton,
+combobox button,
+popover,
+menu,
+.menu,
+tooltip {
+    border-radius: 5px;
+}
+
+button {
+    background: @stratus_surface;
+    border: 1px solid @stratus_border;
+    box-shadow: none;
+    color: @stratus_text;
+}
+
+button:hover {
+    background: @stratus_elevated;
+}
+
+entry {
+    background: @stratus_background;
+    border: 1px solid @stratus_border;
+    box-shadow: none;
+}
+
+entry:focus,
+button:focus {
+    border-color: @stratus_accent;
+}
+
+menu,
+.menu,
+popover.background,
+tooltip.background {
+    background-color: @stratus_surface;
+    border: 1px solid @stratus_border;
+    color: @stratus_text;
+}

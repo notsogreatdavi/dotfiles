@@ -1,0 +1,134 @@
+/* Stratus para GTK 4 e libadwaita
+ * Tokens em 11.06_visual-identity/design-system.md */
+
+@define-color window_bg_color         #0C1018;
+@define-color window_fg_color         #C8D4E3;
+@define-color view_bg_color           #0C1018;
+@define-color view_fg_color           #C8D4E3;
+@define-color headerbar_bg_color      #131B28;
+@define-color headerbar_fg_color      #C8D4E3;
+@define-color headerbar_border_color  #293849;
+@define-color headerbar_backdrop_color #0C1018;
+@define-color sidebar_bg_color        #131B28;
+@define-color sidebar_fg_color        #C8D4E3;
+@define-color sidebar_border_color    #293849;
+@define-color card_bg_color           #131B28;
+@define-color card_fg_color           #C8D4E3;
+@define-color dialog_bg_color         #131B28;
+@define-color dialog_fg_color         #C8D4E3;
+@define-color popover_bg_color        #131B28;
+@define-color popover_fg_color        #C8D4E3;
+@define-color accent_color            #6BA3E8;
+@define-color accent_bg_color         #6BA3E8;
+@define-color accent_fg_color         #0C1018;
+@define-color success_color           #7ABF8A;
+@define-color warning_color           #E0B84A;
+@define-color error_color             #CC6070;
+@define-color destructive_bg_color    #CC6070;
+@define-color destructive_fg_color    #0C1018;
+@define-color borders                 #293849;
+
+/* Nomes legados que o tema Default do GTK 4 ainda lê */
+@define-color theme_bg_color          #0C1018;
+@define-color theme_fg_color          #C8D4E3;
+@define-color theme_base_color        #0C1018;
+@define-color theme_text_color        #C8D4E3;
+@define-color theme_selected_bg_color #6BA3E8;
+@define-color theme_selected_fg_color #0C1018;
+
+button,
+entry,
+popover > contents {
+    border-radius: 5px;
+}
+
+listview > row:selected,
+list > row:selected,
+columnview > listview > row:selected {
+    background-color: #1B2637;
+    color: #C8D4E3;
+    box-shadow: inset 0 0 0 1px #6BA3E8;
+}
+
+/* O tema Default do GTK 4 compila as cores como valores fixos e ignora os
+ * @define-color acima; apps GTK 4 sem libadwaita (pavucontrol) precisam de regras diretas. */
+window.background,
+window > .background {
+    background-color: #0C1018;
+    color: #C8D4E3;
+}
+
+notebook > header {
+    background-color: #131B28;
+    border-color: #293849;
+}
+
+notebook > header tab:checked {
+    color: #C8D4E3;
+    box-shadow: inset 0 -2px #6BA3E8;
+}
+
+notebook > stack,
+scrolledwindow,
+viewport,
+list,
+listview {
+    background-color: #0C1018;
+}
+
+separator {
+    background-color: #293849;
+}
+
+button,
+button.toggle,
+dropdown > button,
+dropdown > button.toggle,
+combobox > button {
+    background-color: #131B28;
+    border: 1px solid #293849;
+    color: #C8D4E3;
+    box-shadow: none;
+}
+
+button:hover {
+    background-color: #1B2637;
+}
+
+scale > trough {
+    background-color: #1B2637;
+}
+
+scale > trough > highlight {
+    background-color: #6BA3E8;
+}
+
+scale > trough > slider,
+scale.marks-after > trough > slider,
+scale.marks-before > trough > slider {
+    background-color: #C8D4E3;
+    background-image: none;
+    border: none;
+    border-radius: 8px;
+    min-width: 16px;
+    min-height: 16px;
+    margin: -7px;
+    box-shadow: none;
+}
+
+progressbar > trough > progress {
+    background-color: #7ABF8A;
+}
+
+levelbar > trough > block.filled {
+    background-color: #7ABF8A;
+}
+
+levelbar > trough > block.empty {
+    background-color: #131B28;
+}
+
+label.dim-label,
+.dim-label {
+    color: #7A90A8;
+}
