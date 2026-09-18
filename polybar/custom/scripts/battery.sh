@@ -26,8 +26,16 @@ else
     ICON=""
 fi
 
+# Cor do valor por estado: status.success carregando, status.error <=10, status.warning <=30
 if [[ "$STATUS" == "Charging" || "$STATUS" == "Full" ]]; then
-    printf "󱐋 %s\n" "$ICON"
+    COLOR="#7ABF8A"
+    ICON="󱐋 $ICON"
+elif (( CAPACITY <= 10 )); then
+    COLOR="#CC6070"
+elif (( CAPACITY <= 30 )); then
+    COLOR="#E0B84A"
 else
-    printf "%s\n" "$ICON"
+    COLOR="#C8D4E3"
 fi
+
+printf "%s %%{F%s}%s%%%%{F-}\n" "$ICON" "$COLOR" "$CAPACITY"

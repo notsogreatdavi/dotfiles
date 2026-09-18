@@ -30,16 +30,17 @@ down)
     VOLUME="$(get_volume 2>/dev/null)"
     MUTED="$(is_muted 2>/dev/null)"
 
+    # Cores: text.muted (#4A5A70) no mudo, valor em text.primary
     if [[ "$MUTED" == "true" || "$MUTED" == "muted" ]]; then
-        echo "󰝟"
+        echo "%{F#4A5A70}󰝟 mudo%{F-}"
     elif [[ -z "$VOLUME" ]]; then
         echo "󰕾"
     elif (( VOLUME >= 70 )); then
-        echo "󰕾"
+        echo "󰕾 %{F#C8D4E3}${VOLUME}%%{F-}"
     elif (( VOLUME >= 30 )); then
-        echo "󰖀"
+        echo "󰖀 %{F#C8D4E3}${VOLUME}%%{F-}"
     else
-        echo "󰕿"
+        echo "󰕿 %{F#C8D4E3}${VOLUME}%%{F-}"
     fi
     ;;
 esac
