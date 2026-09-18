@@ -1,164 +1,194 @@
-/**
- * Rofi Theme - Nord
- * Adapted for notsogreatdavi by Gemini
- */
+/* Stratus: launcher (apps, run, janelas, arquivos)
+ * Cores do hub compartilhado com os menus da polybar. */
 
-/*****----- Global Properties -----*****/
-* {
-    /* Stratus palette */
-    background:                  #0C1018; /* dark.background */
-    background-alt:              #131B28; /* dark.surface */
-    text:                        #7A90A8; /* text.secondary */
-    text-primary:                #C8D4E3; /* text.primary */
-    primary:                     #6BA3E8; /* accent.primary */
-    secondary:                   #8B6FBE; /* accent.secondary */
-    urgent:                      #8B6FBE; /* accent.secondary */
-
-    font:                        "VictorMono Nerd Font 10";
-}
-
-/*****----- Configuration -----*****/
 configuration {
-    modi:                        "drun,filebrowser,window";
-    show-icons:                  true;
-    display-drun:                " Apps";
-    display-filebrowser:         " Files";
-    display-window:              " Windows";
-    drun-display-format:         "{name}";
-    window-format:               "{w} · {c} · {t}";
+    modi:                "drun,run,window,filebrowser";
+    show-icons:          true;
+    display-drun:        "apps";
+    display-run:         "run";
+    display-window:      "janelas";
+    display-filebrowser: "arquivos";
+    drun-display-format: "{name} <span size='small' foreground='#7A90A8'>{generic}</span>";
+    window-format:       "{c} <span size='small' foreground='#7A90A8'>{t}</span>";
 }
 
-/*****----- Main Window -----*****/
+@import "~/.config/polybar/scripts/rofi/colors.rasi"
+
+* {
+    background-color: transparent;
+    text-color:       @fg;
+    font:             @ui-font;
+}
+
 window {
-    transparency:                "real";
-    location:                    center;
-    anchor:                      center;
-    width:                       600px;
-    border-radius:               5px;
-    background-color:            @background;
+    transparency:     "real";
+    location:         center;
+    anchor:           center;
+    width:            640px;
+    background-color: @bg;
+    border:           1px;
+    border-color:     @bd;
+    border-radius:    5px;
 }
 
-/*****----- Main Box -----*****/
 mainbox {
-    spacing:                     15px;
-    padding:                     20px;
-    background-color:            transparent;
-    orientation:                 vertical;
-    children:                    [ "mode-switcher", "inputbar", "listbox" ];
+    orientation:      vertical;
+    children:         [ header, inputbar, message, listview, textbox-hint ];
+    spacing:          0px;
 }
 
-listbox {
-    padding:                     10px;
-    background-color:            transparent;
-    orientation:                 vertical;
-    children:                    [ "message", "listview" ];
+/* ─── Cabeçalho: cloud mark, wordmark e modos ─── */
+
+header {
+    expand:           false;
+    orientation:      horizontal;
+    children:         [ textbox-mark, textbox-brand, mode-switcher ];
+    padding:          16px 16px 0px 16px;
+    spacing:          8px;
 }
 
-/*****----- Mode Switcher (Centralizado) -----*****/
+textbox-mark {
+    expand:           false;
+    str:              "󰖐";
+    text-color:       @ac;
+    font:             "VictorMono Nerd Font 15";
+    vertical-align:   0.5;
+}
+
+textbox-brand {
+    expand:           true;
+    str:              "stratus";
+    text-color:       @fga;
+    vertical-align:   0.5;
+}
+
 mode-switcher {
-    enabled:                     true;
-    spacing:                     20px;
-    background-color:            transparent;
-    text-color:                  @text;
-    horizontal-align:            0.5; /* Centraliza horizontalmente */
+    expand:           false;
+    fixed-columns:    false;
+    spacing:          4px;
 }
+
 button {
-    padding:                     10px 15px;
-    border-radius:               5px;
-    background-color:            @background-alt;
-    text-color:                  inherit;
-    cursor:                      pointer;
+    expand:           false;
+    padding:          4px 8px;
+    border-radius:    5px;
+    text-color:       @fga;
+    font:             "Geist 10";
+    cursor:           pointer;
 }
+
 button selected {
-    background-color:            @primary;
-    text-color:                  @background;
+    background-color: @se;
+    text-color:       @fg;
 }
 
-/*****----- Inputbar -----*****/
+/* ─── Busca ─── */
+
 inputbar {
-    enabled:                     true;
-    spacing:                     15px;
-    padding:                     15px;
-    border-radius:               5px;
-    background-color:            @background-alt;
-    text-color:                  @text;
-    orientation:                 horizontal;
-    children:                    [ "textbox-prompt-colon", "entry"];
+    children:         [ textbox-search, entry, num-filtered-rows, textbox-of, num-rows ];
+    margin:           16px;
+    padding:          12px 16px;
+    spacing:          8px;
+    background-color: @bga;
+    border:           1px;
+    border-color:     @ac;
+    border-radius:    5px;
 }
-textbox-prompt-colon {
-    enabled:                     true;
-    expand:                      false;
-    str:                         "";
-    padding:                     10px 15px;
-    border-radius:               5px;
-    background-color:            @secondary;
-    text-color:                  @text-primary;
+
+textbox-search {
+    expand:           false;
+    str:              "󰍉";
+    text-color:       @hl;
+    font:             @mono-font;
+    vertical-align:   0.5;
 }
+
 entry {
-    padding:                     10px 16px;
-    border-radius:               5px;
-    background-color:            @background-alt;
-    text-color:                  inherit;
-    cursor:                      text;
-    placeholder:                 "Search...";
-    placeholder-color:           inherit;
+    font:             @mono-font;
+    placeholder:      "buscar";
+    placeholder-color: @mu;
+    cursor:           text;
+    vertical-align:   0.5;
 }
 
-/*****----- Listview -----*****/
+num-filtered-rows, num-rows {
+    text-color:       @mu;
+    font:             "Geist 10";
+    vertical-align:   0.5;
+}
+
+textbox-of {
+    expand:           false;
+    str:              "de";
+    text-color:       @mu;
+    font:             "Geist 10";
+    vertical-align:   0.5;
+}
+
+/* ─── Lista ─── */
+
 listview {
-    columns:                     1;
-    lines:                       8;
-    cycle:                       true;
-    dynamic:                     true;
-    scrollbar:                   false;
-    layout:                      vertical;
-    spacing:                     10px;
-    background-color:            transparent;
-    text-color:                  @text;
+    columns:          1;
+    lines:            7;
+    cycle:            true;
+    dynamic:          true;
+    scrollbar:        false;
+    padding:          0px 8px 8px 8px;
+    spacing:          2px;
 }
 
-/*****----- Elements -----*****/
 element {
-    padding:                     10px;
-    border-radius:               5px;
-    background-color:            transparent;
-    text-color:                  @text;
-    cursor:                      pointer;
-}
-element normal.normal {
-    background-color:            @background-alt;
-    text-color:                  inherit;
-}
-element selected.normal {
-    background-color:            @primary;
-    text-color:                  @background;
-}
-element-icon {
-    background-color:            transparent;
-    text-color:                  inherit;
-    size:                        24px;
-    cursor:                      inherit;
-}
-element-text {
-    background-color:            transparent;
-    text-color:                  inherit;
-    cursor:                      inherit;
-    vertical-align:              0.5;
+    orientation:      horizontal;
+    padding:          10px 12px;
+    spacing:          16px;
+    border-radius:    5px;
+    cursor:           pointer;
 }
 
-/*****----- Message -----*****/
+element selected.normal,
+element selected.active {
+    background-color: @se;
+}
+
+element-icon {
+    size:             32px;
+    padding:          4px;
+    background-color: @bga;
+    border:           1px;
+    border-color:     @bd;
+    border-radius:    5px;
+    cursor:           inherit;
+}
+
+element-text {
+    text-color:       @fg;
+    highlight:        bold #45C4C4;
+    vertical-align:   0.5;
+    cursor:           inherit;
+}
+
+/* ─── Rodapé e mensagens ─── */
+
+textbox-hint {
+    expand:           false;
+    str:              "ctrl+tab muda modo  ·  ctrl+enter roda o texto digitado";
+    text-color:       @mu;
+    font:             "Geist 10";
+    padding:          8px 16px;
+    border:           1px 0px 0px 0px;
+    border-color:     @bd;
+}
+
 message {
-    background-color:            transparent;
+    padding:          0px 16px 8px 16px;
 }
+
 textbox {
-    padding:                     12px;
-    border-radius:               5px;
-    background-color:            @background-alt;
-    text-color:                  @text;
+    text-color:       @fga;
 }
+
 error-message {
-    padding:                     12px;
-    border-radius:               5px;
-    background-color:            @background;
-    text-color:                  @urgent;
+    padding:          16px;
+    background-color: @bg;
+    text-color:       @er;
 }
