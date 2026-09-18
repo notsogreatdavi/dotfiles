@@ -15,7 +15,7 @@ elif command -v wpctl >/dev/null 2>&1; then
     vol_up() { wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; }
     vol_down() { wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; }
 else
-    echo "󰝟"
+    echo "%{T4}󰝟%{T-}"
     exit 0
 fi
 
@@ -32,15 +32,15 @@ down)
 
     # Cores: text.muted (#4A5A70) no mudo, valor em text.primary
     if [[ "$MUTED" == "true" || "$MUTED" == "muted" ]]; then
-        echo "%{F#4A5A70}󰝟 mudo%{F-}"
+        echo "%{F#4A5A70}%{T4}󰝟%{T-} mudo%{F-}"
     elif [[ -z "$VOLUME" ]]; then
-        echo "󰕾"
+        echo "%{T4}󰕾%{T-}"
     elif (( VOLUME >= 70 )); then
-        echo "󰕾 %{F#C8D4E3}${VOLUME}%%{F-}"
+        echo "%{T4}󰕾%{T-} %{F#C8D4E3}${VOLUME}%%{F-}"
     elif (( VOLUME >= 30 )); then
-        echo "󰖀 %{F#C8D4E3}${VOLUME}%%{F-}"
+        echo "%{T4}󰖀%{T-} %{F#C8D4E3}${VOLUME}%%{F-}"
     else
-        echo "󰕿 %{F#C8D4E3}${VOLUME}%%{F-}"
+        echo "%{T4}󰕿%{T-} %{F#C8D4E3}${VOLUME}%%{F-}"
     fi
     ;;
 esac
