@@ -13,14 +13,14 @@ window {
     border:           1px;
     border-color:     @bd;
     border-radius:    5px;
-    width:            420px;
+    width:            380px;
     location:         center;
     anchor:           center;
 }
 
 mainbox {
     background-color: @al;
-    children:         [ inputbar, message, listview ];
+    children:         [ inputbar, message, box-actions ];
     padding:          24px;
     spacing:          16px;
 }
@@ -34,9 +34,10 @@ inputbar {
 textbox-icon {
     background-color: @al;
     text-color:       @wn;
-    font:             "VictorMono Nerd Font 13";
+    font:             "VictorMono Nerd Font Propo 14";
     expand:           false;
-    str:              "󰀦";
+    str:              "󰀪";
+    vertical-align:   0.5;
 }
 
 prompt {
@@ -56,14 +57,29 @@ textbox {
     font:             "Geist 11";
 }
 
+/* Botões à direita: um dummy de largura fixa empurra a lista, que divide os
+ * 222px restantes (380 − padding 48 − 110) em duas colunas de ~107px. Colunas
+ * fixas cabem "suspender", "reiniciar" e "desligar" sem cortar o botão de ação. */
+box-actions {
+    background-color: @al;
+    orientation:      horizontal;
+    children:         [ dummy, listview ];
+}
+
+dummy {
+    background-color: @al;
+    expand:           false;
+    width:            110px;
+}
+
 listview {
     background-color: @al;
+    layout:           vertical;
     columns:          2;
     lines:            1;
-    spacing:          8px;
     fixed-columns:    true;
+    spacing:          8px;
     dynamic:          false;
-    layout:           vertical;
 }
 
 element {
@@ -72,7 +88,7 @@ element {
     border:           1px;
     border-color:     @bd;
     border-radius:    5px;
-    padding:          10px 16px;
+    padding:          8px 16px;
 }
 
 element-text {
@@ -87,13 +103,15 @@ element selected {
     border-color:     @ac;
 }
 
+/* Ação destrutiva preenchida em status.error; o foco é sempre a borda accent */
 element urgent {
-    background-color: @bga;
-    text-color:       @er;
+    background-color: @er;
+    border-color:     @er;
+    text-color:       @bg;
 }
 
 element selected urgent {
     background-color: @er;
-    border-color:     @er;
+    border-color:     @ac;
     text-color:       @bg;
 }
