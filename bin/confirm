@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Diálogo de confirmação Stratus via rofi. Sai com 0 só se a ação for escolhida.
+# Uso: confirm "<título>" "<descrição>" [rótulo da ação]
+
+title="$1"
+description="$2"
+action="${3:-confirmar}"
+theme="$HOME/.config/polybar/scripts/rofi/confirm.rasi"
+
+chosen=$(printf 'cancelar\n%s\n' "$action" |
+    rofi -dmenu -no-config -theme "$theme" -p "$title" -mesg "$description" -u 1 -selected-row 0)
+
+[[ "$chosen" == "$action" ]]

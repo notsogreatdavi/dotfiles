@@ -1,5 +1,6 @@
+/* Stratus: diálogo de confirmação (substitui o i3-nagbar) */
+
 configuration {
-    font:           "VictorMono Nerd Font 10";
     show-icons:     false;
     hide-scrollbar: true;
 }
@@ -9,38 +10,90 @@ configuration {
 window {
     transparency:     "real";
     background-color: @bg;
-    text-color:       @fg;
     border:           1px;
-    border-color:     @ac;
+    border-color:     @bd;
     border-radius:    5px;
-    width:            300px;
+    width:            420px;
     location:         center;
-}
-
-inputbar {
-    children:         [ prompt, entry ];
-    background-color: @bga;
-    border:           0px;
-    padding:          8px;
-}
-
-prompt {
-    background-color: @al;
-    text-color:       @ac;
-    padding:          0px 4px 0px 0px;
-}
-
-entry {
-    background-color: @al;
-    text-color:       @fga;
-    placeholder:      "yes / no";
-    placeholder-color: @fga;
-    expand:           true;
-    blink:            true;
+    anchor:           center;
 }
 
 mainbox {
     background-color: @al;
-    children:         [ inputbar ];
-    padding:          0px;
+    children:         [ inputbar, message, listview ];
+    padding:          24px;
+    spacing:          16px;
+}
+
+inputbar {
+    background-color: @al;
+    children:         [ textbox-icon, prompt ];
+    spacing:          8px;
+}
+
+textbox-icon {
+    background-color: @al;
+    text-color:       @wn;
+    font:             "VictorMono Nerd Font 13";
+    expand:           false;
+    str:              "󰀦";
+}
+
+prompt {
+    background-color: @al;
+    text-color:       @fg;
+    font:             "Geist SemiBold 13";
+    vertical-align:   0.5;
+}
+
+message {
+    background-color: @al;
+}
+
+textbox {
+    background-color: @al;
+    text-color:       @fga;
+    font:             "Geist 11";
+}
+
+listview {
+    background-color: @al;
+    columns:          2;
+    lines:            1;
+    spacing:          8px;
+    fixed-columns:    true;
+    dynamic:          false;
+    layout:           vertical;
+}
+
+element {
+    background-color: @bga;
+    text-color:       @fg;
+    border:           1px;
+    border-color:     @bd;
+    border-radius:    5px;
+    padding:          10px 16px;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    horizontal-align: 0.5;
+    font:             "Geist 11";
+}
+
+element selected {
+    background-color: @se;
+    border-color:     @ac;
+}
+
+element urgent {
+    background-color: @bga;
+    text-color:       @er;
+}
+
+element selected urgent {
+    background-color: @er;
+    border-color:     @er;
+    text-color:       @bg;
 }

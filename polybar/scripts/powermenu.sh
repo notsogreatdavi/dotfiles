@@ -1,42 +1,26 @@
 #!/usr/bin/env bash
+# Menu de energia Stratus: 5 blocos, ações destrutivas passam pelo `confirm`
 
 DIR="$HOME/.config/polybar/scripts/rofi"
 UPTIME="$(uptime -p | sed 's/up //')"
 
-ROFI="rofi -no-config -theme $DIR/powermenu.rasi"
+lock="<span size='xx-large'>󰌾</span>\nbloquear"
+suspend="<span size='xx-large'>󰤄</span>\nsuspender"
+logout="<span size='xx-large'>󰍃</span>\nsair"
+reboot="<span size='xx-large'>󰑓</span>\nreiniciar"
+shutdown="<span size='xx-large'>󰐥</span>\ndesligar"
 
-lock="󰌾  Lock"
-suspend="󰤄  Sleep"
-logout="󰍃  Logout"
-reboot="󰑓  Restart"
-shutdown="󰐥  Shutdown"
+chosen=$(printf '%b|%b|%b|%b|%b' "$lock" "$suspend" "$logout" "$reboot" "$shutdown" |
+    rofi -dmenu -no-config -theme "$DIR/powermenu.rasi" \
+        -sep '|' -eh 3 -markup-rows -u 4 -selected-row 0 \
+        -p "Até logo, $USER" \
+        -theme-str "textbox-uptime { str: \"up $UPTIME\"; }" \
+        -format i)
 
-confirm() {
-    rofi -dmenu -no-config -i -no-fixed-num-lines \
-        -p "Confirmar: " -theme "$DIR/confirm.rasi"
-}
-
-is_confirmed() {
-    [[ "$1" == "yes" || "$1" == "y" ]]
-}
-
-OPTIONS="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
-CHOSEN="$(echo -e "$OPTIONS" | $ROFI -p "uptime: $UPTIME" -dmenu -selected-row 0)"
-
-case "$CHOSEN" in
-    "$lock")
-        i3lock -c 2E3440
-        ;;
-    "$suspend")
-        is_confirmed "$(confirm)" && systemctl suspend
-        ;;
-    "$logout")
-        is_confirmed "$(confirm)" && i3-msg exit
-        ;;
-    "$reboot")
-        is_confirmed "$(confirm)" && systemctl reboot
-        ;;
-    "$shutdown")
-        is_confirmed "$(confirm)" && systemctl poweroff
-        ;;
+case "$chosen" in
+    0) lock ;;
+    1) confirm "Suspender?" "O sistema entra em suspensão." "suspender" && systemctl suspend ;;
+    2) confirm "Sair do i3?" "A sessão X será encerrada. Janelas abertas vão fechar sem salvar." "sair" && i3-msg exit ;;
+    3) confirm "Reiniciar?" "Janelas abertas vão fechar sem salvar." "reiniciar" && systemctl reboot ;;
+    4) confirm "Desligar?" "Janelas abertas vão fechar sem salvar." "desligar" && systemctl poweroff ;;
 esac
