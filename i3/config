@@ -36,9 +36,9 @@ set $urgent     #CC6070
 # classe              borda      fundo       texto       indicador  child_border
 client.focused          $accent    $elevated   $text       $accent    $accent
 client.focused_inactive $border    $surface    $text_dim   $border    $border
-client.unfocused        $border    $bg         $text_muted $border    $bg
+client.unfocused        $border    $bg         $text_muted $border    $border
 client.urgent           $urgent    $elevated   $text       $urgent    $urgent
-client.placeholder      #000000    #000000     #FFFFFF     #000000    #000000
+client.placeholder      $bg        $bg         $text       $bg        $bg
 client.background       $bg
 
 for_window [class="^."]       border pixel 2
