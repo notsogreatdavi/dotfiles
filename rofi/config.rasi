@@ -13,7 +13,8 @@ configuration {
 	cycle: true;
 	filter: "";
 	scroll-method: 0;
-	normalize-match: true;
+	/* true quebra o destaque do trecho buscado na lista */
+	normalize-match: false;
 	show-icons: true;
 	icon-theme: "Papirus";
 /*	cache-dir: ;*/
