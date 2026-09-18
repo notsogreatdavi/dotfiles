@@ -1,0 +1,44 @@
+/* Stratus: menu de wi-fi (título + estado, redes com sinal e segurança, rodapé de ações) */
+@import "menu.rasi"
+
+mainbox {
+    children:         [ inputbar, listview, message ];
+}
+
+inputbar {
+    children:         [ prompt, textbox-status ];
+    padding:          16px 16px 12px 16px;
+}
+
+prompt {
+    expand:           true;
+}
+
+/* O networkmenu.sh troca o str e a cor conforme o estado do rádio */
+textbox-status {
+    background-color: @al;
+    expand:           false;
+    str:              "conectado";
+    text-color:       @ok;
+    font:             "VictorMono Nerd Font 9";
+    vertical-align:   0.5;
+}
+
+/* O rofi mede a altura da linha pela fonte do element e desenha com a do
+ * element-text; fontes diferentes deixam um vão no fim da lista */
+element, element-text {
+    font:             "VictorMono Nerd Font Mono 10";
+}
+
+/* Rodapé via -mesg: um textbox customizado não entra no cálculo da altura
+ * da janela e esconde a última linha da lista */
+message {
+    padding:          8px 16px;
+    border:           1px 0px 0px 0px;
+    border-color:     @bd;
+}
+
+textbox {
+    text-color:       @mu;
+    font:             "Geist 9";
+}
