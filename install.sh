@@ -103,6 +103,16 @@ if [ -d /boot/EFI/refind ]; then
     setup_refind
 fi
 
+setup_chromium_policies() {
+    sudo mkdir -p /etc/chromium/policies/managed
+    sudo ln -sf "$DOTFILES_DIR/chromium/policies/managed/extensions.json" /etc/chromium/policies/managed/extensions.json
+    echo -e "${GREEN}  chromium: extensões forçadas em todos os perfis${NC}"
+}
+
+if command -v chromium &>/dev/null; then
+    setup_chromium_policies
+fi
+
 echo ""
 echo "==> Configurando estrutura Johnny Decimal..."
 bash "$DOTFILES_DIR/bin/jd-setup"
