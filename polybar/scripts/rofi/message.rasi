@@ -1,17 +1,5 @@
-configuration {
-    font: "VictorMono Nerd Font 10";
-}
+/* Stratus: mensagem simples (clima) */
+@import "menu.rasi"
 
-@import "colors.rasi"
-
-window {
-    transparency:     "real";
-    background-color: @bg;
-    text-color:       @fga;
-    border:           1px;
-    border-color:     @ac;
-    border-radius:    5px;
-    padding:          12px 20px;
-    width:            360px;
-    location:         center;
-}
+window   { location: center; anchor: center; x-offset: 0px; y-offset: 0px; }
+inputbar { children: [ prompt ]; }

@@ -2,7 +2,7 @@
 
 RASI="$HOME/.config/polybar/scripts/rofi/calendar.rasi"
 STATE_FILE="/tmp/polybar-calendar-offset"
-ACCENT="#88C0D0"
+ACCENT="#6BA3E8"  # accent.primary
 CAL_WIDTH=23
 
 [[ -f "$STATE_FILE" ]] || echo 0 > "$STATE_FILE"

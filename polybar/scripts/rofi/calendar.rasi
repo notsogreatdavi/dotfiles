@@ -13,13 +13,13 @@ window {
     background-color: @bg;
     text-color:       @fg;
     border:           1px;
-    border-color:     @ac;
+    border-color:     @bd;
     border-radius:    5px;
     width:            196px;
-    location:         north;
-    anchor:           north;
-    y-offset:         44px;
-    x-offset:         0px;
+    location:         northeast;
+    anchor:           northeast;
+    y-offset:         52px;
+    x-offset:         -8px;
 }
 
 prompt {
@@ -65,7 +65,7 @@ element {
     background-color: @al;
     text-color:       @fga;
     orientation:      horizontal;
-    border-radius:    4px;
+    border-radius:    5px;
     padding:          1px 3px;
 }
 
@@ -81,7 +81,6 @@ element-text {
 element selected {
     background-color: @se;
     text-color:       @fg;
-    border:           1px;
-    border-radius:    4px;
-    border-color:     @ac;
+    border:           0px;
+    border-radius:    5px;
 }

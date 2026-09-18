@@ -1,11 +1,22 @@
-/* Stratus palette — ac and se are overwritten dynamically by launcher.sh */
+/* Stratus: hub de cor importado por todos os menus rofi
+ * Tokens em 11.06_visual-identity/design-system.md */
 
 * {
-  al:  #00000000;       /* transparent */
+  al:  #00000000;       /* transparente */
   bg:  #0C1018FF;       /* dark.background */
   bga: #131B28FF;       /* dark.surface */
+  se:  #1B2637FF;       /* dark.elevated: seleção */
+  bd:  #293849FF;       /* dark.border */
   fg:  #C8D4E3FF;       /* text.primary */
   fga: #7A90A8FF;       /* text.secondary */
-  ac:  #6BA3E8FF;       /* accent.primary */
-  se:  #6BA3E840;       /* accent.primary @ 40% */
+  mu:  #4A5A70FF;       /* text.muted */
+  ac:  #6BA3E8FF;       /* accent.primary: foco */
+  ac2: #8B6FBEFF;       /* accent.secondary */
+  hl:  #45C4C4FF;       /* accent.highlight: match, cursor */
+  ok:  #7ABF8AFF;       /* status.success */
+  wn:  #E0B84AFF;       /* status.warning */
+  er:  #CC6070FF;       /* status.error */
+
+  ui-font:   "Geist 11";
+  mono-font: "VictorMono Nerd Font 11";
 }

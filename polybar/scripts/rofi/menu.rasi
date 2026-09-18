@@ -1,0 +1,108 @@
+/* Stratus: base dos menus de lista abertos pela polybar (wi-fi, bluetooth, volume...)
+ * Cada menu importa este arquivo e só sobrescreve largura, linhas e o filtro. */
+
+configuration {
+    show-icons:      false;
+    hide-scrollbar:  true;
+    sidebar-mode:    false;
+}
+
+@import "colors.rasi"
+
+window {
+    transparency:     "real";
+    background-color: @bg;
+    text-color:       @fg;
+    border:           1px;
+    border-color:     @bd;
+    border-radius:    5px;
+    width:            360px;
+    location:         northeast;
+    anchor:           northeast;
+    y-offset:         52px;
+    x-offset:         -8px;
+}
+
+mainbox {
+    background-color: @al;
+    children:         [ inputbar, listview ];
+    spacing:          0px;
+    padding:          0px;
+}
+
+inputbar {
+    children:         [ prompt, entry ];
+    background-color: @al;
+    padding:          16px 16px 8px 16px;
+    spacing:          8px;
+}
+
+prompt {
+    background-color: @al;
+    text-color:       @fg;
+    font:             "Geist SemiBold 12";
+}
+
+entry {
+    background-color: @al;
+    text-color:       @fg;
+    placeholder:      "filtrar";
+    placeholder-color: @mu;
+    font:             @ui-font;
+    expand:           true;
+    blink:            true;
+}
+
+listview {
+    background-color: @al;
+    padding:          0px 8px 8px 8px;
+    columns:          1;
+    lines:            8;
+    spacing:          2px;
+    cycle:            true;
+    dynamic:          true;
+    fixed-height:     false;
+    layout:           vertical;
+}
+
+element {
+    background-color: @al;
+    text-color:       @fg;
+    orientation:      horizontal;
+    border-radius:    5px;
+    padding:          10px 12px;
+    font:             @mono-font;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    highlight:        bold #45C4C4;
+    vertical-align:   0.5;
+}
+
+element selected {
+    background-color: @se;
+    text-color:       @fg;
+}
+
+element urgent,
+element selected urgent {
+    text-color:       @er;
+}
+
+element active,
+element selected active {
+    text-color:       @ok;
+}
+
+message {
+    background-color: @al;
+    padding:          0px 16px 8px 16px;
+}
+
+textbox {
+    background-color: @al;
+    text-color:       @fga;
+    font:             @ui-font;
+}
