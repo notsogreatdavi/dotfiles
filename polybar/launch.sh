@@ -18,6 +18,6 @@ stop_polybar
 EXTERNAL=$(xrandr --query | grep -E "^HDMI.* connected" | awk '{print $1}' | head -n1)
 export MONITOR="${EXTERNAL:-eDP-1}"
 
-for island in left center right; do
+for island in left center status clock; do
     polybar "$island" -c "$CONFIG" --reload 2>"/tmp/polybar-$island.log" &
 done
