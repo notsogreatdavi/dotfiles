@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Menu de wi-fi Stratus: uma linha por rede (sinal, SSID, segurança ou ✓ na conectada).
-# Ações do rodapé via teclas: alt+d liga/desliga o rádio, alt+r reescaneia.
+# Ações do rodapé via teclas: alt+d liga/desliga o rádio, alt+r reescaneia;
+# as duas mantêm o menu aberto.
 
 RASI="$HOME/.config/polybar/scripts/rofi/wifi.rasi"
 
@@ -70,12 +71,29 @@ list_networks() {
 }
 
 # A lista encolhe até o número de redes (no máximo 8); -l perde para o lines do tema
+# Roda em segundo plano e grava o PID: o scan em andamento fecha este rofi para
+# reabrir com a lista nova. O <&0 evita que o bash troque o stdin do job em
+# segundo plano por /dev/null. O -l perde para o lines do tema, por isso o -theme-str
 show_menu() {
     local status="$1" status_color="$2" lines="$3" hint="$4"
     rofi -no-config -dmenu -i -markup-rows -format i -p "Wi-Fi" -theme "$RASI" \
         -mesg "$hint" \
         -theme-str "textbox-status { str: \"$status\"; text-color: $status_color; } listview { lines: $lines; }" \
-        -kb-custom-1 "Alt+d" -kb-custom-2 "Alt+r"
+        -kb-custom-1 "Alt+d" -kb-custom-2 "Alt+r" <&0 &
+    echo $! > "$STATE/rofi.pid"
+    wait $!
+}
+
+# Espera o scan terminar (o --rescan yes bloqueia até lá) e troca o menu aberto
+start_scan() {
+    rm -f "$STATE/scan.done"
+    (
+        sleep 1
+        nmcli dev wifi list --rescan yes >/dev/null 2>&1
+        touch "$STATE/scan.done" 2>/dev/null || exit
+        local pid; pid=$(cat "$STATE/rofi.pid" 2>/dev/null)
+        [[ "$(ps -p "$pid" -o comm= 2>/dev/null)" == "rofi" ]] && kill "$pid"
+    ) &
 }
 
 connect_to() {
@@ -92,43 +110,68 @@ connect_to() {
     fi && notify-send "Wi-Fi" "Conectado a \"$ssid\""
 }
 
+placeholder_row() { printf '<span foreground="%s">%s</span>\n' "$MUTED" "$1"; }
+
 main() {
-    local -a ssids=() rows=()
-    local status status_color hint in_use signal security ssid choice code
+    local -a ssids rows
+    local status status_color hint in_use signal security ssid choice code scanning=false
 
-    if wifi_on; then
-        while IFS=: read -r in_use signal security ssid; do
-            ssids+=("$ssid")
-            rows+=("$(render_network "$in_use" "$signal" "$security" "$ssid")")
-        done < <(list_networks)
-        if nmcli -t -f IN-USE dev wifi list --rescan no | grep -q '^\*'; then
-            status="conectado"; status_color="$SUCCESS"
+    STATE=$(mktemp -d "${XDG_RUNTIME_DIR:-/tmp}/wifimenu.XXXX")
+    trap 'rm -rf "$STATE"' EXIT
+
+    # Cada ação (alt+d, alt+r, fim do scan) reabre o menu em vez de encerrar
+    while true; do
+        ssids=(); rows=()
+        if wifi_on; then
+            while IFS=: read -r in_use signal security ssid; do
+                ssids+=("$ssid")
+                rows+=("$(render_network "$in_use" "$signal" "$security" "$ssid")")
+            done < <(list_networks)
+            if $scanning; then
+                status="buscando…"; status_color="$TEXT_DIM"
+            elif nmcli -t -f IN-USE dev wifi list --rescan no | grep -q '^\*'; then
+                status="conectado"; status_color="$SUCCESS"
+            else
+                status="desconectado"; status_color="$MUTED"
+            fi
+            if (( ${#rows[@]} == 0 )); then
+                ssids+=("__none__")
+                if $scanning; then rows+=("$(placeholder_row "buscando redes…")")
+                else rows+=("$(placeholder_row "nenhuma rede encontrada")"); fi
+            fi
+            hint="alt+d desligar wi-fi  ·  alt+r reescanear"
         else
-            status="desconectado"; status_color="$MUTED"
+            ssids+=("__toggle__")
+            rows+=("<span foreground=\"$MUTED\">$(printf '%s' $'\U000f092d')</span>  ligar wi-fi")
+            status="desligado"; status_color="$MUTED"
+            hint="alt+d ligar wi-fi"
         fi
-        hint="alt+d desligar wi-fi  ·  alt+r reescanear"
-    else
-        ssids+=("__toggle__")
-        rows+=("<span foreground=\"$MUTED\">$(printf '%s' $'\U000f092d')</span>  ligar wi-fi")
-        status="desligado"; status_color="$MUTED"
-        hint="alt+d ligar wi-fi"
-    fi
 
-    choice=$(printf '%s\n' "${rows[@]}" | show_menu "$status" "$status_color" $(( ${#rows[@]} < 8 ? ${#rows[@]} : 8 )) "$hint")
-    code=$?
+        choice=$(printf '%s\n' "${rows[@]}" | show_menu "$status" "$status_color" $(( ${#rows[@]} < 8 ? ${#rows[@]} : 8 )) "$hint")
+        code=$?
 
-    case "$code" in
-        "$EXIT_TOGGLE") toggle_radio; return ;;
-        "$EXIT_RESCAN") nmcli dev wifi list --rescan yes >/dev/null 2>&1; exec bash "$0" ;;
-    esac
-    [[ -z "$choice" || "$choice" == "-1" ]] && return
+        if [[ -e "$STATE/scan.done" ]]; then
+            rm -f "$STATE/scan.done"; scanning=false; continue
+        fi
 
-    ssid="${ssids[$choice]}"
-    if [[ "$ssid" == "__toggle__" ]]; then
-        toggle_radio
-    else
-        connect_to "$ssid"
-    fi
+        case "$code" in
+            "$EXIT_TOGGLE")
+                toggle_radio
+                if wifi_on; then scanning=true; start_scan; else scanning=false; fi
+                continue ;;
+            "$EXIT_RESCAN")
+                wifi_on && { scanning=true; start_scan; }
+                continue ;;
+        esac
+        [[ -z "$choice" || "$choice" == "-1" ]] && return
+
+        ssid="${ssids[$choice]}"
+        case "$ssid" in
+            __none__)   continue ;;
+            __toggle__) toggle_radio; scanning=true; start_scan; continue ;;
+            *)          connect_to "$ssid"; return ;;
+        esac
+    done
 }
 
 main
