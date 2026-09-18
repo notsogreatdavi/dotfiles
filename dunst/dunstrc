@@ -1,35 +1,43 @@
-[global]
-    font = JetBrainsMono 10
-    markup = full
-    format = "<span foreground='#88C0D0'><b>%s</b></span>\n%b"
+# Stratus: tokens em 11.06_visual-identity/design-system.md
+# #0C1018 dark.background · #131B28 dark.surface · #293849 dark.border
+# #C8D4E3 text.primary · #7A90A8 text.secondary
+# #6BA3E8 accent.primary · #CC6070 status.error
 
-    width = 320
+[global]
+    font = Geist 10
+    markup = full
+    # summary em text.primary, corpo em text.secondary (dunst nao tem variaveis)
+    format = "<b>%s</b>\n<span foreground='#7A90A8'>%b</span>"
+
+    width = 360
     height = (0, 200)
     origin = top-right
-    offset = (12, 48)
+    # 24 da borda; 60 = polybar (8 + 36) + spacing.md
+    offset = (24, 60)
 
-    corner_radius = 10
+    corner_radius = 5
     corners = all
-    frame_width = 2
-    frame_color = "#5E81AC"
+    frame_width = 1
+    frame_color = "#293849"
+    gap_size = 8
 
     separator_height = 1
-    separator_color = "#4C566A"
-    padding = 12
-    horizontal_padding = 12
-    text_icon_padding = 8
+    separator_color = frame
+    padding = 16
+    horizontal_padding = 16
+    text_icon_padding = 16
 
     progress_bar = true
-    progress_bar_height = 8
-    progress_bar_frame_width = 1
+    progress_bar_height = 4
+    progress_bar_frame_width = 0
     progress_bar_corner_radius = 2
     progress_bar_min_width = 150
-    progress_bar_max_width = 280
+    progress_bar_max_width = 328
 
     icon_position = left
     min_icon_size = 32
-    max_icon_size = 48
-    icon_corner_radius = 2
+    max_icon_size = 32
+    icon_corner_radius = 5
     enable_recursive_icon_lookup = true
     icon_theme = Adwaita
 
@@ -53,22 +61,25 @@
     browser = /usr/bin/xdg-open
 
 [urgency_low]
-    background = "#2E3440"
-    foreground = "#4C566A"
-    frame_color = "#3B4252"
+    background = "#0C1018"
+    foreground = "#7A90A8"
+    frame_color = "#293849"
+    highlight = "#7A90A8"
     timeout = 8
     default_icon = dialog-information
 
 [urgency_normal]
-    background = "#2E3440"
-    foreground = "#D8DEE9"
-    frame_color = "#5E81AC"
+    background = "#131B28"
+    foreground = "#C8D4E3"
+    frame_color = "#293849"
+    highlight = "#6BA3E8"
     timeout = 10
     default_icon = dialog-information
 
 [urgency_critical]
-    background = "#2E3440"
-    foreground = "#ECEFF4"
-    frame_color = "#BF616A"
+    background = "#131B28"
+    foreground = "#C8D4E3"
+    frame_color = "#CC6070"
+    highlight = "#CC6070"
     timeout = 0
     default_icon = dialog-warning
