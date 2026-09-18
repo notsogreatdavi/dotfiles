@@ -101,3 +101,100 @@ tooltip.background {
     border: 1px solid @stratus_border;
     color: @stratus_text;
 }
+
+/* O Adwaita do GTK 3 compila boa parte das superfícies como valores fixos e
+ * ignora os @define-color acima; apps como o blueman precisam de regras diretas. */
+window.background,
+.background,
+scrolledwindow,
+viewport,
+treeview.view,
+iconview,
+textview text,
+.view {
+    background-color: @stratus_background;
+    color: @stratus_text;
+}
+
+treeview.view header button {
+    background: @stratus_surface;
+    border-color: @stratus_border;
+    color: @stratus_text_dim;
+}
+
+menubar,
+toolbar,
+.toolbar,
+.primary-toolbar,
+statusbar,
+.inline-toolbar {
+    background: @stratus_surface;
+    border-color: @stratus_border;
+    color: @stratus_text;
+}
+
+menubar {
+    border-bottom: 1px solid @stratus_border;
+}
+
+statusbar {
+    border-top: 1px solid @stratus_border;
+    color: @stratus_text_dim;
+}
+
+menubar > menuitem:hover,
+menu menuitem:hover {
+    background-color: @stratus_elevated;
+    color: @stratus_text;
+}
+
+separator {
+    background-color: @stratus_border;
+}
+
+switch {
+    background-color: @stratus_elevated;
+    border-color: @stratus_border;
+}
+
+switch:checked {
+    background-color: @stratus_accent;
+}
+
+switch slider {
+    background: @stratus_text;
+    border-color: @stratus_border;
+    box-shadow: none;
+}
+
+scale trough,
+progressbar trough,
+levelbar trough {
+    background-color: @stratus_elevated;
+    border-color: @stratus_border;
+}
+
+scale highlight,
+progressbar progress {
+    background-color: @stratus_accent;
+    border-color: @stratus_accent;
+}
+
+scrollbar {
+    background-color: transparent;
+    border: none;
+}
+
+scrollbar slider {
+    background-color: @stratus_border;
+}
+
+.dim-label,
+label.dim-label {
+    color: @stratus_text_dim;
+}
+
+/* No treeview o box-shadow é pintado por célula, fatiando a linha; seleção só com fundo */
+treeview.view:selected {
+    box-shadow: none;
+}
