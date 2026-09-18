@@ -18,6 +18,14 @@ export PATH="$HOME/.local/bin:$PATH"
 export GOPATH="$HOME/10-19_dev/13_infra/13.02_go"
 export PATH="$GOPATH/bin:$PATH"
 
+# fzf com paleta Stratus (11.06_visual-identity/design-system.md)
+export FZF_DEFAULT_OPTS="\
+  --border=rounded --pointer='▌' --marker='+' --prompt='> ' --info=inline-right \
+  --color=fg:#7A90A8,bg:-1,hl:#6BA3E8 \
+  --color=fg+:#C8D4E3,bg+:#1B2637,hl+:#6BA3E8,gutter:-1 \
+  --color=info:#4A5A70,prompt:#6BA3E8,pointer:#45C4C4,marker:#7ABF8A \
+  --color=spinner:#45C4C4,header:#8B6FBE,border:#293849,query:#C8D4E3"
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
