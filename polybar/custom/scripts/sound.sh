@@ -32,15 +32,15 @@ down)
 
     # Cores: text.muted (#4A5A70) no mudo, valor em text.primary
     if [[ "$MUTED" == "true" || "$MUTED" == "muted" ]]; then
-        echo "%{F#4A5A70}%{T4}󰝟%{T-} mudo%{F-}"
+        echo "%{F#4A5A70}%{T4}󰝟%{T-}%{O6}mudo%{F-}"
     elif [[ -z "$VOLUME" ]]; then
         echo "%{T4}󰕾%{T-}"
     elif (( VOLUME >= 70 )); then
-        echo "%{T4}󰕾%{T-} %{F#C8D4E3}${VOLUME}%%{F-}"
+        echo "%{T4}󰕾%{T-}%{O6}%{F#C8D4E3}${VOLUME}%%{F-}"
     elif (( VOLUME >= 30 )); then
-        echo "%{T4}󰖀%{T-} %{F#C8D4E3}${VOLUME}%%{F-}"
+        echo "%{T4}󰖀%{T-}%{O6}%{F#C8D4E3}${VOLUME}%%{F-}"
     else
-        echo "%{T4}󰕿%{T-} %{F#C8D4E3}${VOLUME}%%{F-}"
+        echo "%{T4}󰕿%{T-}%{O6}%{F#C8D4E3}${VOLUME}%%{F-}"
     fi
     ;;
 esac

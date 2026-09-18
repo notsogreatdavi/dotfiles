@@ -50,4 +50,4 @@ else
     ICON_COLOR="#7A90A8"
 fi
 
-printf "%%{F%s}%%{T4}%s%%{T-}%%{F-}%%{O9} %%{F%s}%s%%%%{F-}\n" "$ICON_COLOR" "$ICON" "$COLOR" "$CAPACITY"
+printf "%%{F%s}%%{T4}%s%%{T-}%%{F-}%%{O11}%%{F%s}%s%%%%{F-}\n" "$ICON_COLOR" "$ICON" "$COLOR" "$CAPACITY"
