@@ -57,7 +57,7 @@ tiling_drag modifier titlebar
 
 bindsym $mod+Return       exec ghostty
 bindsym $mod+d            exec --no-startup-id ~/.config/rofi/launchers/type-7/launcher.sh
-bindsym $mod+o            exec --no-startup-id ~/.config/rofi/powermenu/type-6/powermenu.sh
+bindsym $mod+o            exec --no-startup-id ~/.config/polybar/scripts/powermenu.sh
 bindsym $mod+Shift+q      kill
 
 # ─── Keybindings: Foco ───────────────────────────────────────────────────────
@@ -150,7 +150,7 @@ bindsym $mod+Shift+t exec --no-startup-id rotate-screen
 
 bindsym $mod+Shift+c exec i3-msg reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Sair do i3? Isso encerrará a sessão X.' -B 'Sim, sair' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id confirm "Sair do i3?" "A sessão X será encerrada. Janelas abertas vão fechar sem salvar." "sair" && i3-msg exit
 bindsym $mod+Ctrl+l  exec lock
 
 # ─── Modo: Resize ─────────────────────────────────────────────────────────────
