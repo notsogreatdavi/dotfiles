@@ -59,6 +59,7 @@ link "$DOTFILES_DIR/spotifyd"    "$CONFIG_DIR/spotifyd"
 link "$DOTFILES_DIR/spotify-tui" "$CONFIG_DIR/spotify-tui"
 link "$DOTFILES_DIR/dunst"       "$CONFIG_DIR/dunst"
 link "$DOTFILES_DIR/betterlockscreen" "$CONFIG_DIR/betterlockscreen"
+link "$DOTFILES_DIR/qt6ct"       "$CONFIG_DIR/qt6ct"
 
 # GTK: só settings.ini e gtk.css (o resto das pastas é gerado por outros apps)
 for gtk_version in gtk-3.0 gtk-4.0; do
