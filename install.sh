@@ -90,9 +90,8 @@ echo "==> Configs do sistema (requerem sudo)..."
 setup_sddm() {
     sudo mkdir -p /etc/sddm.conf.d
     sudo ln -sf "$DOTFILES_DIR/sddm/sddm.conf.d/10-theme.conf" /etc/sddm.conf.d/10-theme.conf
-    sudo cp "$DOTFILES_DIR/sddm/themes/eucalyptus-drop/theme.conf" /usr/share/sddm/themes/eucalyptus-drop/theme.conf
+    sudo cp -r "$DOTFILES_DIR/sddm/themes/stratus" /usr/share/sddm/themes/
     sudo ln -sf "$DOTFILES_DIR/sddm/scripts/Xsetup" /usr/share/sddm/scripts/Xsetup
-    sudo cp "$DOTFILES_DIR/wallpapers/theme.png" /usr/share/sddm/themes/eucalyptus-drop/Backgrounds/custom-background.png
     mkdir -p "$HOME/Pictures/wallpaper"
     cp "$DOTFILES_DIR/wallpapers/theme.png" "$HOME/Pictures/wallpaper/theme.png"
     echo -e "${GREEN}  sddm: configs aplicadas${NC}"
