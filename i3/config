@@ -46,7 +46,7 @@ for_window [class="^Polybar"] floating enable
 
 gaps inner 8
 gaps outer 4
-gaps top 12
+gaps top 44
 
 # ─── Comportamento de Mouse ───────────────────────────────────────────────────
 
