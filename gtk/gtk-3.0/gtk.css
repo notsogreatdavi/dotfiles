@@ -198,3 +198,78 @@ label.dim-label {
 treeview.view:selected {
     box-shadow: none;
 }
+
+/* ─── Thunar (artboard "Files" do canvas) ─────────────────────────────────── */
+
+/* Barra de 48px: botões sem moldura e caminho em VictorMono num campo de 32px */
+.thunar toolbar {
+    padding: 8px;
+    background: @stratus_surface;
+    border-bottom: 1px solid @stratus_border;
+}
+
+.thunar toolbar button {
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+.thunar toolbar button:hover {
+    background: @stratus_elevated;
+}
+
+.thunar toolbar entry {
+    min-height: 32px;
+    padding: 0 12px;
+    font-family: "VictorMono Nerd Font";
+    font-size: 13px;
+    background: @stratus_background;
+    border: 1px solid @stratus_border;
+    color: @stratus_text;
+}
+
+/* Lateral em surface com linhas de 32px; item ativo só em elevated */
+.thunar .shortcuts-pane,
+.thunar .shortcuts-pane treeview.view {
+    background-color: @stratus_surface;
+}
+
+.thunar .shortcuts-pane treeview.view {
+    -GtkTreeView-vertical-separator: 10;
+}
+
+/* :focus entra junto porque o Adwaita pinta a seleção focada em accent sólido */
+.thunar .shortcuts-pane treeview.view:selected,
+.thunar .shortcuts-pane treeview.view:selected:focus,
+.thunar .standard-view treeview.view:selected,
+.thunar .standard-view treeview.view:selected:focus {
+    background-color: @stratus_elevated;
+    color: @stratus_text;
+}
+
+.thunar paned > separator {
+    background-color: @stratus_border;
+    min-width: 1px;
+}
+
+/* Lista: linhas de 36px e cabeçalho em 12px text.secondary sobre o fundo.
+ * padding no treeview entra em cada célula e deixa as linhas irregulares;
+ * a altura vem do espaço entre linhas (propriedade de estilo do GTK 3) */
+.thunar .standard-view treeview.view {
+    -GtkTreeView-vertical-separator: 14;
+}
+
+.thunar .standard-view treeview.view header button {
+    padding: 8px;
+    font-size: 12px;
+    background: @stratus_background;
+    border: none;
+    border-bottom: 1px solid @stratus_border;
+    color: @stratus_text_dim;
+}
+
+.thunar statusbar {
+    font-size: 12px;
+}
