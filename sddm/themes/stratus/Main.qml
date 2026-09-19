@@ -33,6 +33,17 @@ Rectangle {
     property string userName: userModel.lastUser !== ""
         ? userModel.lastUser
         : userModel.data(userModel.index(0, 0), Qt.UserRole + 1)
+    // Foto de /var/lib/AccountsService/icons/<usuário> (papel IconRole do userModel)
+    property string userIcon: iconOf(userName)
+
+    function iconOf(name) {
+        for (var i = 0; i < userModel.count; i++) {
+            var index = userModel.index(i, 0)
+            if (userModel.data(index, Qt.UserRole + 1) === name)
+                return userModel.data(index, Qt.UserRole + 4)
+        }
+        return ""
+    }
 
     Connections {
         target: sddm
@@ -141,8 +152,19 @@ Rectangle {
                     width: 64; height: 64; radius: 32
                     color: tokens.elevated
                     border { color: tokens.border; width: 1 }
+                    // A foto já vem redonda (sddm/avatar.png): o clip do Qt Quick só corta retângulos
+                    Image {
+                        id: avatar
+                        anchors { fill: parent; margins: 1 }
+                        source: root.userIcon
+                        sourceSize { width: 128; height: 128 }
+                        fillMode: Image.PreserveAspectCrop
+                        smooth: true
+                        visible: status === Image.Ready
+                    }
                     Text {
                         anchors.centerIn: parent
+                        visible: !avatar.visible
                         text: root.userName.charAt(0).toUpperCase()
                         color: tokens.textSecondary
                         font { family: tokens.ui; pixelSize: 26; weight: Font.DemiBold }
