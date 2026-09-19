@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Regenera a imagem da lockscreen: blur do betterlockscreen + desenhos do lock-overlay.
+# Rodar depois de trocar o wallpaper ou a disposição dos monitores.
+# Uso: lock-update [wallpaper]  (padrão: o wallpaper do i3)
+
+WALLPAPER="${1:-$HOME/Pictures/wallpaper/theme-stratus.png}"
+
+betterlockscreen -u "$WALLPAPER" --fx dimblur && lock-overlay
