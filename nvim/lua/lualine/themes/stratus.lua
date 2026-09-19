@@ -4,8 +4,11 @@ local c = require("stratus.palette")
 local function mode(accent)
   return {
     a = { fg = c.bg, bg = accent, gui = "bold" },
-    b = { fg = c.fg2, bg = c.surface },
+    -- Seção b do LazyVim é a branch: accent.secondary como no design
+    b = { fg = c.secondary, bg = c.surface },
     c = { fg = c.fg, bg = c.surface },
+    -- Sem isso a y (posição) herda a cor da b
+    y = { fg = c.fg2, bg = c.surface },
     z = { fg = c.fg, bg = c.elevated },
   }
 end
