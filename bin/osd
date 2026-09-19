@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Ajusta volume ou brilho e mostra o nível numa notificação com barra (regra [osd] do dunstrc).
+# Uso: osd volume up|down|mute · osd brightness up|down
+
+ICONS="$HOME/.config/dunst/icons"
+ACCENT="#6BA3E8"
+WARNING="#E0B84A"
+MUTED="#4A5A70"
+
+VOLUME_STEP="5%"
+BRIGHTNESS_STEP=5
+
+show_level() {
+    local title="$1" value="$2" label="$3" icon="$4" color="$5"
+    notify-send -a osd -i "$ICONS/stratus-$icon.svg" \
+        -h "int:value:$value" -h "string:hlcolor:$color" \
+        -h string:x-dunst-stack-tag:osd "$title" "$label"
+}
+
+change_volume() {
+    case "$1" in
+        up)   wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ "$VOLUME_STEP+" ;;
+        down) wpctl set-volume @DEFAULT_AUDIO_SINK@ "$VOLUME_STEP-" ;;
+        mute) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
+    esac
+    local volume muted
+    read -r volume muted < <(wpctl get-volume @DEFAULT_AUDIO_SINK@ |
+        awk '{ printf "%d %d\n", $2 * 100 + 0.5, ($3 == "[MUTED]") }')
+    if (( muted )); then
+        show_level "Volume" "$volume" "mudo" volume-mute "$MUTED"
+    else
+        show_level "Volume" "$volume" "${volume}%" volume "$ACCENT"
+    fi
+}
+
+change_brightness() {
+    case "$1" in
+        up)   light -A "$BRIGHTNESS_STEP" ;;
+        down) light -U "$BRIGHTNESS_STEP" ;;
+    esac
+    local level
+    level=$(light -G | awk '{ printf "%d", $1 + 0.5 }')
+    show_level "Brilho" "$level" "${level}%" brightness "$WARNING"
+}
+
+case "$1" in
+    volume)     change_volume "$2" ;;
+    brightness) change_brightness "$2" ;;
+    *)          echo "uso: osd volume up|down|mute | osd brightness up|down" >&2; exit 1 ;;
+esac
