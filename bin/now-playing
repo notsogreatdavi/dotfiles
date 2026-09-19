@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+"""Notificação "Tocando agora" a cada música nova do Spotify (urgência baixa do dunstrc).
+
+O cliente do Spotify para Linux não notifica sozinho; ele publica a música via MPRIS
+no D-Bus. Pausar e retomar a mesma música não repete o aviso.
+"""
+import subprocess
+from html import escape
+
+from gi.repository import Gio, GLib
+
+PLAYER = "org.mpris.MediaPlayer2.spotify"
+PATH = "/org/mpris/MediaPlayer2"
+PLAYER_IFACE = "org.mpris.MediaPlayer2.Player"
+
+bus = Gio.bus_get_sync(Gio.BusType.SESSION)
+last_track = None
+
+
+def player_property(name):
+    reply = bus.call_sync(PLAYER, PATH, "org.freedesktop.DBus.Properties", "Get",
+                          GLib.Variant("(ss)", (PLAYER_IFACE, name)),
+                          GLib.VariantType("(v)"), Gio.DBusCallFlags.NONE, -1, None)
+    return reply.unpack()[0]
+
+
+def notify(title, artists):
+    body = escape(title) + (", " + escape(", ".join(artists)) if artists else "")
+    subprocess.run(["dunstify", "-u", "low", "-a", "spotify",
+                    "-h", "string:x-dunst-stack-tag:now-playing",
+                    "Tocando agora", body])
+
+
+def on_properties_changed(_bus, sender, _path, _iface, _signal, params):
+    global last_track
+    if params.unpack()[0] != PLAYER_IFACE:
+        return
+    try:
+        if player_property("PlaybackStatus") != "Playing":
+            return
+        metadata = player_property("Metadata")
+    except GLib.Error:
+        return
+    track = metadata.get("mpris:trackid")
+    if track and track != last_track:
+        last_track = track
+        notify(metadata.get("xesam:title", ""), metadata.get("xesam:artist", []))
+
+
+bus.signal_subscribe(PLAYER, "org.freedesktop.DBus.Properties", "PropertiesChanged",
+                     PATH, None, Gio.DBusSignalFlags.NONE, on_properties_changed)
+GLib.MainLoop().run()
