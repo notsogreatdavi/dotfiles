@@ -51,6 +51,8 @@
     ellipsize = middle
     show_age_threshold = 60
     stack_duplicates = true
+    # O "(A)" de ações some; quem tem ações diz a tecla no corpo
+    show_indicators = no
     notification_limit = 5
 
     mouse_left_click = close_current
@@ -61,8 +63,8 @@
     sort = yes
     sticky_history = yes
     history_length = 20
-    # Botões de ação não são desenhados pelo dunst: abrem neste menu ($mod+period)
-    dmenu = /usr/bin/rofi -dmenu -no-config -p Ações -theme ~/.config/polybar/scripts/rofi/menu.rasi
+    # Botões de ação não são desenhados pelo dunst: abrem no rofi pelo bin/dunst-actions ($mod+period)
+    dmenu = /home/notsogreatdavi/.local/bin/dunst-actions
     browser = /usr/bin/xdg-open
 
 [urgency_low]

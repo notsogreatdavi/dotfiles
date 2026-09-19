@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Menu de ações das notificações (dmenu do dunstrc). O dunst manda linhas no formato
+# "#rótulo (título) [id,ação]"; o rofi mostra só o rótulo e a linha original volta ao dunst.
+
+RASI="$HOME/.config/polybar/scripts/rofi/menu.rasi"
+
+mapfile -t entries
+(( ${#entries[@]} )) || exit 1
+
+choice=$(printf '%s\n' "${entries[@]}" |
+    sed -E 's/^#//; s/ \([^)]*\) \[[^]]*\]$//' |
+    rofi -dmenu -no-config -format i -p "Ações" -theme "$RASI" \
+        -theme-str "window { location: center; anchor: center; x-offset: 0; y-offset: 0; } listview { lines: ${#entries[@]}; }") || exit 1
+
+printf '%s\n' "${entries[$choice]}"
