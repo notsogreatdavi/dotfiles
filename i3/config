@@ -46,6 +46,7 @@ for_window [class="^Polybar"] floating enable
 
 gaps inner 8
 gaps outer 4
+# 44 = polybar (8 + 36); o polybar/scripts/bar-gaps.sh baixa para 4 fora do monitor dela
 gaps top 44
 
 # ─── Comportamento de Mouse ───────────────────────────────────────────────────

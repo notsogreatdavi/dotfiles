@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Sobe as 3 ilhas da polybar Stratus no monitor externo (ou no eDP-1 sem externo)
+# Sobe as ilhas da polybar Stratus no monitor externo (ou no eDP-1 sem externo)
+# e o bar-gaps.sh, que reserva o espaço delas só nesse monitor
 
 CONFIG="$HOME/.config/polybar/custom/config.ini"
 
@@ -21,3 +22,7 @@ export MONITOR="${EXTERNAL:-eDP-1}"
 for island in left center status clock; do
     polybar "$island" -c "$CONFIG" --reload 2>"/tmp/polybar-$island.log" &
 done
+
+# Espaço da barra só no monitor dela (reinicia junto porque o MONITOR pode ter mudado)
+pkill -u "$UID" -f "polybar/scripts/bar-gaps.sh"
+bash "$HOME/.config/polybar/scripts/bar-gaps.sh" >/dev/null 2>&1 &
