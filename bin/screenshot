@@ -16,11 +16,26 @@ copy_to_clipboard() {
     xclip -selection clipboard -t image/png -i "$OUT_FILE"
 }
 
+# O dunst não desenha botões: as ações abrem no menu de contexto ($mod+period).
+# O dunstify espera a escolha, por isso roda em segundo plano
+notify_saved() {
+    local shown="${OUT_FILE/#$HOME/\~}" action
+    action=$(dunstify -i "$HOME/.config/dunst/icons/stratus-screenshot.svg" \
+        -A "open,abrir" -A "copy,copiar caminho" \
+        "Captura salva" "<span font_desc='VictorMono Nerd Font 9'>$shown</span>
+<span foreground='#4A5A70' size='9pt'>super+.  abrir · copiar caminho</span>")
+    case "$action" in
+        open) xdg-open "$OUT_FILE" ;;
+        copy) printf '%s' "$OUT_FILE" | xclip -selection clipboard ;;
+    esac
+}
+
 main() {
     mkdir -p "$OUT_DIR"
     capture_region || exit 1
     copy_to_clipboard
-    notify-send "Screenshot" "Salvo em $OUT_FILE" 2>/dev/null || true
+    notify_saved &
+    disown
 }
 
 main "$@"
