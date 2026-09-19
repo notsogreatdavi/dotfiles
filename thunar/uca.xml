@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Abrir no terminal</name>
+	<submenu></submenu>
+	<unique-id>1789777500000001-1</unique-id>
+	<command>ghostty --working-directory=%f</command>
+	<description>Abre o Ghostty nesta pasta</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>nvim</icon>
+	<name>Abrir no nvim</name>
+	<submenu></submenu>
+	<unique-id>1789777500000002-2</unique-id>
+	<command>ghostty -e nvim %f</command>
+	<description>Abre no Neovim dentro do Ghostty</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+	<text-files/>
+	<other-files/>
+</action>
+</actions>
