@@ -230,6 +230,40 @@ treeview.view:selected {
     color: @stratus_text;
 }
 
+/* Caminho em segmentos dentro de um campo como o do design: pastas anteriores em
+ * text.secondary e a atual em text.primary, tudo em VictorMono */
+.thunar .path-bar {
+    min-height: 32px;
+    padding: 0 8px;
+    background: @stratus_background;
+    border: 1px solid @stratus_border;
+    border-radius: 5px;
+}
+
+.thunar .path-bar button {
+    min-height: 30px;
+    padding: 0 4px;
+    font-family: "VictorMono Nerd Font";
+    font-size: 13px;
+    font-weight: normal;
+    background: none;
+    border: none;
+    color: @stratus_text_dim;
+}
+
+.thunar .path-bar button label {
+    font-weight: normal;
+}
+
+.thunar .path-bar button:checked,
+.thunar .path-bar button:checked label {
+    color: @stratus_text;
+}
+
+.thunar .path-bar button:hover {
+    background: @stratus_elevated;
+}
+
 /* Lateral em surface com linhas de 32px; item ativo só em elevated */
 .thunar .shortcuts-pane,
 .thunar .shortcuts-pane treeview.view {
@@ -259,6 +293,7 @@ treeview.view:selected {
  * a altura vem do espaço entre linhas (propriedade de estilo do GTK 3) */
 .thunar .standard-view treeview.view {
     -GtkTreeView-vertical-separator: 14;
+    outline-width: 0;
 }
 
 .thunar .standard-view treeview.view header button {
