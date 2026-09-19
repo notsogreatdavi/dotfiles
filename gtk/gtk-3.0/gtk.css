@@ -274,11 +274,14 @@ treeview.view:selected {
     -GtkTreeView-vertical-separator: 10;
 }
 
-/* :focus entra junto porque o Adwaita pinta a seleção focada em accent sólido */
+/* :focus e :backdrop entram junto porque o Adwaita pinta a seleção focada e a da
+ * janela sem foco em accent sólido */
 .thunar .shortcuts-pane treeview.view:selected,
 .thunar .shortcuts-pane treeview.view:selected:focus,
+.thunar .shortcuts-pane treeview.view:selected:backdrop,
 .thunar .standard-view treeview.view:selected,
-.thunar .standard-view treeview.view:selected:focus {
+.thunar .standard-view treeview.view:selected:focus,
+.thunar .standard-view treeview.view:selected:backdrop {
     background-color: @stratus_elevated;
     color: @stratus_text;
 }
