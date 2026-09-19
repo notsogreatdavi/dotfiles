@@ -16,7 +16,7 @@ configuration {
 	/* true quebra o destaque do trecho buscado na lista */
 	normalize-match: false;
 	show-icons: true;
-	icon-theme: "Papirus";
+	icon-theme: "Tela-circle-nord-dark";
 /*	cache-dir: ;*/
 	steal-focus: false;
 /*	dpi: -1;*/
