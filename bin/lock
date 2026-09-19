@@ -3,7 +3,8 @@
 # betterlockscreen handles password via PAM; fprintd-verify
 # runs in a separate loop and kills i3lock on finger match.
 
-betterlockscreen -l "$@" &
+# Sem efeito o betterlockscreen usa a imagem crua (lock_resize.png), sem blur
+betterlockscreen -l dimblur "$@" &
 sleep 0.5
 
 (while pidof i3lock > /dev/null 2>&1; do
