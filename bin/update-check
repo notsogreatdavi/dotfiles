@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Avisa atualizações do pacman a cada 6h. O checkupdates (pacman-contrib) sincroniza
+# num banco temporário: não precisa de root nem deixa o sistema em atualização parcial.
+# Uso: update-check [--once]
+
+ICON="$HOME/.config/dunst/icons/stratus-update.svg"
+INTERVAL=$(( 6 * 60 * 60 ))
+# Pacotes que merecem ser citados no aviso, em ordem de importância
+HIGHLIGHTS="linux linux-lts nvidia mesa systemd glibc pacman"
+
+# Nome e versão nova do pacote mais importante da lista (ou o primeiro)
+headline_package() {
+    local updates="$1" name
+    for name in $HIGHLIGHTS; do
+        awk -v n="$name" '$1 == n { print $1, $4; found = 1; exit } END { exit !found }' <<<"$updates" && return
+    done
+    awk 'NR == 1 { print $1, $4 }' <<<"$updates"
+}
+
+check_once() {
+    local updates count
+    updates=$(checkupdates 2>/dev/null) || return
+    count=$(wc -l <<<"$updates")
+    dunstify -i "$ICON" -h string:x-dunst-stack-tag:updates "pacman" \
+        "$count atualizações disponíveis, incluindo $(headline_package "$updates")"
+}
+
+[[ "$1" == "--once" ]] && { check_once; exit; }
+while true; do
+    check_once
+    sleep "$INTERVAL"
+done

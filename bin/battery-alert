@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Avisa bateria baixa: normal em 15%, crítica (fica na tela) em 5%. Um aviso por limiar
+# a cada descarga; conectar o carregador fecha o aviso aberto. Só avisa, não suspende.
+# BATTERY permite apontar para outro diretório (teste com arquivos falsos).
+
+BATTERY="${BATTERY:-/sys/class/power_supply/BAT0}"
+ICONS="$HOME/.config/dunst/icons"
+
+LOW=15
+CRITICAL=5
+INTERVAL="${INTERVAL:-60}"
+
+discharging() { [[ "$(<"$BATTERY/status")" == "Discharging" ]]; }
+
+# Imprime o id da notificação para poder fechá-la depois
+notify_battery() {
+    local urgency="$1" capacity="$2" icon="$3"
+    dunstify -p -u "$urgency" -i "$ICONS/$icon.svg" \
+        -h string:x-dunst-stack-tag:battery \
+        "Bateria em ${capacity}%" "Conecte o carregador."
+}
+
+main() {
+    local capacity warned=100 id=""
+    while true; do
+        capacity=$(<"$BATTERY/capacity")
+        if ! discharging; then
+            [[ -n "$id" ]] && dunstify -C "$id"
+            warned=100; id=""
+        elif (( capacity <= CRITICAL && warned > CRITICAL )); then
+            id=$(notify_battery critical "$capacity" stratus-battery-critical); warned=$CRITICAL
+        elif (( capacity <= LOW && warned > LOW )); then
+            id=$(notify_battery normal "$capacity" stratus-battery-low); warned=$LOW
+        fi
+        sleep "$INTERVAL"
+    done
+}
+
+main
