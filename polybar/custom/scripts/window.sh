@@ -20,7 +20,7 @@ app_icon() {
         spotify)                              printf '%s' $'\U000f04c7' ;;
         steam)                                printf '%s' $'\U000f04d3' ;;
         vlc)                                  printf '%s' $'\U000f057c' ;;
-        *nautilus*)                           printf '%s' $'\U000f024b' ;;
+        thunar|*nautilus*)                    printf '%s' $'\U000f024b' ;;
         *zathura*)                            printf '%s' $'\U000f0226' ;;
         gimp*)                                printf '%s' $'\U000f03d8' ;;
         libreoffice*|soffice)                 printf '%s' $'\U000f0219' ;;
