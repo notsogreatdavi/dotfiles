@@ -1,13 +1,13 @@
 # Stratus: tokens em 11.06_visual-identity/design-system.md
-# #0C1018 dark.background · #131B28 dark.surface · #293849 dark.border
-# #C8D4E3 text.primary · #7A90A8 text.secondary
-# #6BA3E8 accent.primary · #CC6070 status.error
+# #0C1018 dark.background · #131B28 dark.surface · #1B2637 dark.elevated · #293849 dark.border
+# #C8D4E3 text.primary · #7A90A8 text.secondary · #4A5A70 text.muted
+# #6BA3E8 accent.primary · #45C4C4 accent.highlight · #E0B84A status.warning · #CC6070 status.error
 
 [global]
     font = Geist 10
     markup = full
-    # summary em text.primary, corpo em text.secondary (dunst nao tem variaveis)
-    format = "<b>%s</b>\n<span foreground='#7A90A8'>%b</span>"
+    # Título Geist 600 em 14px, corpo em text.secondary a 13px (Geist 10pt a 96dpi)
+    format = "<span weight='600' size='10.5pt'>%s</span>\n<span foreground='#7A90A8'>%b</span>"
 
     width = 360
     height = (0, 200)
@@ -32,12 +32,16 @@
     progress_bar_frame_width = 0
     progress_bar_corner_radius = 2
     progress_bar_min_width = 150
-    progress_bar_max_width = 328
+    # Largura = 360 - padding 16 - ícone 32 - 16 - padding 16, alinhada à direita
+    # para começar junto do texto (o padrão é centralizar)
+    progress_bar_max_width = 280
+    progress_bar_horizontal_alignment = right
 
+    # Ícones do design em ~/.config/dunst/icons (SVG 32px com a caixa dark.elevated);
+    # a busca recursiva ignora o icon_path, por isso os scripts passam o caminho inteiro
     icon_position = left
     min_icon_size = 32
     max_icon_size = 32
-    icon_corner_radius = 5
     enable_recursive_icon_lookup = true
     icon_theme = Adwaita
 
@@ -53,11 +57,12 @@
     mouse_middle_click = do_action, close_current
     mouse_right_click = close_all
 
-    follow = none
+    follow = mouse
     sort = yes
     sticky_history = yes
     history_length = 20
-    dmenu = /usr/bin/dmenu -p dunst:
+    # Botões de ação não são desenhados pelo dunst: abrem neste menu ($mod+period)
+    dmenu = /usr/bin/rofi -dmenu -no-config -p Ações -theme ~/.config/polybar/scripts/rofi/menu.rasi
     browser = /usr/bin/xdg-open
 
 [urgency_low]
@@ -66,7 +71,11 @@
     frame_color = "#293849"
     highlight = "#7A90A8"
     timeout = 8
-    default_icon = dialog-information
+    # Uma linha só, ícone de 16px sem caixa
+    format = "%s · %b"
+    min_icon_size = 16
+    max_icon_size = 16
+    default_icon = /home/notsogreatdavi/.config/dunst/icons/stratus-music.svg
 
 [urgency_normal]
     background = "#131B28"
@@ -74,7 +83,7 @@
     frame_color = "#293849"
     highlight = "#6BA3E8"
     timeout = 10
-    default_icon = dialog-information
+    default_icon = /home/notsogreatdavi/.config/dunst/icons/stratus-info.svg
 
 [urgency_critical]
     background = "#131B28"
@@ -82,4 +91,11 @@
     frame_color = "#CC6070"
     highlight = "#CC6070"
     timeout = 0
-    default_icon = dialog-warning
+    default_icon = /home/notsogreatdavi/.config/dunst/icons/stratus-warning.svg
+
+# Volume e brilho (bin/osd): uma notificação que se substitui, valor em VictorMono
+[osd]
+    appname = osd
+    format = "<span weight='600' size='10.5pt'>%s</span>   <span font_desc='VictorMono Nerd Font 10'>%b</span>"
+    timeout = 2
+    history_ignore = yes
