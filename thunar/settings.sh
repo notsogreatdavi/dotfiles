@@ -37,3 +37,7 @@ set_pref /misc-folder-item-count string THUNAR_FOLDER_ITEM_COUNT_ALWAYS
 set_pref /misc-file-size-binary  bool   false
 set_pref /misc-date-style        string THUNAR_DATE_STYLE_CUSTOM
 set_pref /misc-date-custom-style string "%d %b"
+
+# Com o destaque de arquivos (cores por arquivo) ligado, o Thunar pinta a seleção por
+# conta própria em accent sólido e ignora o gtk.css; desligado, vale a seleção elevated
+set_pref /misc-highlighting-enabled bool false
