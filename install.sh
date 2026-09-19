@@ -60,6 +60,7 @@ link "$DOTFILES_DIR/spotify-tui" "$CONFIG_DIR/spotify-tui"
 link "$DOTFILES_DIR/dunst"       "$CONFIG_DIR/dunst"
 link "$DOTFILES_DIR/betterlockscreen" "$CONFIG_DIR/betterlockscreen"
 link "$DOTFILES_DIR/qt6ct"       "$CONFIG_DIR/qt6ct"
+link "$DOTFILES_DIR/thunar"      "$CONFIG_DIR/Thunar"
 
 # GTK: só settings.ini e gtk.css (o resto das pastas é gerado por outros apps)
 for gtk_version in gtk-3.0 gtk-4.0; do
@@ -67,6 +68,11 @@ for gtk_version in gtk-3.0 gtk-4.0; do
     link "$DOTFILES_DIR/gtk/$gtk_version/settings.ini" "$CONFIG_DIR/$gtk_version/settings.ini"
     link "$DOTFILES_DIR/gtk/$gtk_version/gtk.css"      "$CONFIG_DIR/$gtk_version/gtk.css"
 done
+link "$DOTFILES_DIR/gtk/gtk-3.0/bookmarks" "$CONFIG_DIR/gtk-3.0/bookmarks"
+
+# Thunar: preferências no xfconf (não aceita symlink) e padrão para abrir pastas
+bash "$DOTFILES_DIR/thunar/settings.sh"
+xdg-mime default thunar.desktop inode/directory
 
 # Scripts em ~/.local/bin
 mkdir -p "$HOME/.local/bin"
