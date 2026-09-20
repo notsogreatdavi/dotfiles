@@ -1,0 +1,25 @@
+# Claude Code — instrucoes e permissoes locais, nao versionadas
+CLAUDE.md
+.claude/
+
+# Backups de configuracao (.bak, .bak2, .bak-stratus, .bak.20260509)
+*.bak*
+
+# Credenciais reais (apenas os .template sao versionados)
+spotifyd/spotifyd.conf
+spotify-tui/client.yml
+
+# Symlinks auto-referenciados criados por reexecucao do install.sh
+btop/btop
+dunst/dunst
+ghostty/ghostty
+i3/i3
+neofetch/neofetch
+nvim/nvim
+picom/picom
+polybar/polybar
+ranger/ranger
+rofi/rofi
+spotifyd/spotifyd
+spotify-tui/spotify-tui
+zathura/zathura
