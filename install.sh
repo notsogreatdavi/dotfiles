@@ -130,6 +130,16 @@ if command -v chromium &>/dev/null; then
     setup_chromium_policies
 fi
 
+setup_udev_rules() {
+    # Cópia, não symlink: o udev lê as regras no boot, antes da home estar garantida
+    sudo install -Dm644 -t /etc/udev/rules.d "$DOTFILES_DIR/udev/"*.rules
+    sudo udevadm control --reload
+    sudo udevadm trigger --subsystem-match=hidraw
+    echo -e "${GREEN}  udev: regras aplicadas${NC}"
+}
+
+setup_udev_rules
+
 echo ""
 echo "==> Configurando estrutura Johnny Decimal..."
 bash "$DOTFILES_DIR/bin/jd-setup"
