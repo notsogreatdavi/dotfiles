@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Configurador do Higround Basecamp 65 via Wine.
+#
+# O Wine ignora de propósito o hidraw de teclados, e o canal de configuração do Basecamp
+# fica dentro da interface de teclado. A chave Hidraw=1 libera só este VID/PID (o chip
+# SONiX reporta o ID de um teclado Apple). O acesso ao /dev/hidraw* vem de
+# udev/70-higround-basecamp.rules.
+set -euo pipefail
+
+export WINEPREFIX="$HOME/.local/share/wineprefixes/higround"
+APP_DIR="$WINEPREFIX/drive_c/Program Files/Higround/HG68Keyboard"
+WINEBUS_DEVICE_KEY='HKLM\System\CurrentControlSet\Services\WineBus\Devices\05ac/024f'
+
+if [ ! -f "$APP_DIR/Higround.exe" ]; then
+    echo "Higround não instalado. Rode: WINEPREFIX=$WINEPREFIX wine <Higround Vx.exe>" >&2
+    exit 1
+fi
+
+wine reg add "$WINEBUS_DEVICE_KEY" /v Hidraw /t REG_DWORD /d 1 /f >/dev/null 2>&1
+cd "$APP_DIR"
+exec wine Higround.exe
